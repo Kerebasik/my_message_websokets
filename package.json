@@ -1,8 +1,0 @@
-{
-  "name": "my_message",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:Kerebasik/my_message.git",
-  "author": "Кирилл <kirill.denisenko.01@gmail.com>, and Влад <vladittrello@gmail.com>",
-  "license": "MIT"
-}

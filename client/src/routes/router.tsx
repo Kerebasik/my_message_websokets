@@ -6,6 +6,7 @@ import {
 import SignUp from '../components/pages/SignUp';
 import LogIn from '../components/pages/LogIn';
 import { ResetPassword } from '../components/pages/ResetPassword';
+import { Verified } from '../components/pages/Verified';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -13,6 +14,7 @@ const router = createBrowserRouter(
       <Route path='/reset-password' element={<ResetPassword />} />
       <Route path='/signup' element={<SignUp />} />
       <Route path='/login' element={<LogIn />} />
+      <Route path='/verified' element={<Verified/>}/>
     </>
   )
 );

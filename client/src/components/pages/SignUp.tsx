@@ -1,6 +1,14 @@
-import { Box, Button, Container, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Link,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface SignUpForm {
   email: string;
@@ -16,6 +24,7 @@ const SignUp = () => {
       confirmPassword: '',
     },
   });
+  const navigator = useNavigate();
 
   const password = watch('password');
   const email = watch('email');
@@ -33,6 +42,10 @@ const SignUp = () => {
     }).then(() => {
       reset();
     });
+  };
+
+  const handleNavigateInLogIn = () => {
+    navigator('/login');
   };
 
   return (
@@ -59,6 +72,7 @@ const SignUp = () => {
             borderColor: 'text.primary',
             borderRadius: '15px',
             justifyContent: 'center',
+            alignItems: 'center',
             minHeight: 300,
             width: '100%',
             flexDirection: 'column',
@@ -91,6 +105,7 @@ const SignUp = () => {
                 label='Email'
                 placeholder={'Email'}
                 type='email'
+                fullWidth
                 value={field.value}
                 helperText={fieldState.error?.message}
                 onChange={field.onChange}
@@ -115,6 +130,7 @@ const SignUp = () => {
                 error={!!fieldState.error}
                 label='Password'
                 type='password'
+                fullWidth
                 placeholder={'Password'}
                 value={field.value}
                 helperText={fieldState.error?.message}
@@ -144,6 +160,7 @@ const SignUp = () => {
                 error={!!fieldState.error}
                 label='Confirm password'
                 type='password'
+                fullWidth
                 placeholder={'Confirm password'}
                 value={field.value}
                 helperText={fieldState.error?.message}
@@ -155,6 +172,7 @@ const SignUp = () => {
           <Button
             type='submit'
             variant='contained'
+            fullWidth
             color='primary'
             sx={{
               fontSize: '16px',
@@ -164,6 +182,19 @@ const SignUp = () => {
           >
             Sign up
           </Button>
+
+          <Typography component={'p'} color={'text.primary'} align={'center'}>
+            Do you have an account yet?{' '}
+            <Link
+              underline='hover'
+              onClick={handleNavigateInLogIn}
+              sx={{
+                fontWeight: 700,
+              }}
+            >
+              Log in
+            </Link>
+          </Typography>
         </Box>
       </Box>
     </Container>

@@ -1,6 +1,14 @@
-import { TextField, Button, Box, Container, Typography } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Box,
+  Container,
+  Typography,
+  Link,
+} from '@mui/material';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface LogInForm {
   email: string;
@@ -14,12 +22,21 @@ const LoginForm = () => {
       password: '',
     },
   });
+  const navigator = useNavigate();
   const email = watch('email');
   const password = watch('password');
 
   useEffect(() => {
     return () => reset();
   }, []);
+
+  const handleNavigateInSignUp = () => {
+    navigator('/signup');
+  };
+
+  const handleNavigateInResetPassword = () => {
+    navigator('/reset-password');
+  };
 
   const onSubmit: SubmitHandler<LogInForm> = () => {
     new Promise(() => {
@@ -53,6 +70,7 @@ const LoginForm = () => {
             borderColor: 'text.primary',
             borderRadius: '15px',
             justifyContent: 'center',
+            alignItems: 'center',
             minHeight: 300,
             width: '100%',
             flexDirection: 'column',
@@ -86,6 +104,7 @@ const LoginForm = () => {
                 placeholder={'Email'}
                 type='email'
                 value={field.value}
+                fullWidth
                 helperText={fieldState.error?.message}
                 onChange={field.onChange}
               />
@@ -108,6 +127,7 @@ const LoginForm = () => {
               <TextField
                 error={!!fieldState.error}
                 label='Password'
+                fullWidth
                 type='password'
                 placeholder={'Password'}
                 value={field.value}
@@ -116,6 +136,10 @@ const LoginForm = () => {
               />
             )}
           />
+
+          <Typography color={'text.primary'} align={'center'} component={'p'}>
+            Forgot password? <Link underline={'hover'} sx={{fontWeight:700}} onClick={handleNavigateInResetPassword}>Recover password</Link>
+          </Typography>
 
           <Button
             type='submit'
@@ -126,9 +150,22 @@ const LoginForm = () => {
               fontWeight: '700',
             }}
             formNoValidate
+            fullWidth
           >
             Log in
           </Button>
+
+          <Typography color={'text.primary'} align={'center'} component={'p'}>
+            No account yet?{' '}
+            <Link
+              underline={'hover'}
+              sx={{ fontWeight: 700 }}
+              onClick={handleNavigateInSignUp}
+            >
+              {' '}
+              Create an account
+            </Link>
+          </Typography>
         </Box>
       </Box>
     </Container>

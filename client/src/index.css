@@ -63,6 +63,7 @@ a:visited {
 }
 a:hover {
     text-decoration: none;
+    cursor: pointer;
 }
 ul li {
     list-style-type: none;

@@ -4,9 +4,9 @@ import MoonIcon from '@mui/icons-material/Brightness4';
 import LightIcon from '@mui/icons-material/Brightness5Rounded';
 import React from 'react';
 
-export const Theme = ({ children }:any)=>{
+export const Theme = ({ children }: any) => {
   const { currentTheme, handleThemeChange } = useTheme();
-  return(
+  return (
     <>
       <ThemeProvider theme={currentTheme}>
         <Container
@@ -34,5 +34,5 @@ export const Theme = ({ children }:any)=>{
         </Container>
       </ThemeProvider>
     </>
-  )
-}
+  );
+};

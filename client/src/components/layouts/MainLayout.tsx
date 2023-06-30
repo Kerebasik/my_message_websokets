@@ -1,11 +1,5 @@
+const mainLayout = () => {
+  return <></>;
+};
 
-
-const mainLayout = ()=>{
-    return(
-        <>
-            
-        </>
-    )
-}
-
-export default mainLayout
+export default mainLayout;

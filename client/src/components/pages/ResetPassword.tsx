@@ -1,6 +1,7 @@
-import { Box, Button, Container, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, Link, TextField, Typography } from '@mui/material';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface ResetPasswordFrom {
   email: string;
@@ -10,6 +11,7 @@ export const ResetPassword = () => {
   const { control, handleSubmit, watch, reset } = useForm({
     defaultValues: { email: '' },
   });
+  const navigate = useNavigate()
   const email = watch('email');
 
   const handleOnSubmit: SubmitHandler<ResetPasswordFrom> = () => {
@@ -19,6 +21,10 @@ export const ResetPassword = () => {
       reset();
     });
   };
+
+  const handleNavigateInLogIn=()=>{
+    navigate('/login')
+  }
 
   useEffect(() => {
     return () => {
@@ -51,6 +57,7 @@ export const ResetPassword = () => {
               borderColor: 'text.primary',
               borderRadius: '15px',
               justifyContent: 'center',
+              alignItems:'center',
               width: '100%',
               flexDirection: 'column',
             }}
@@ -58,14 +65,14 @@ export const ResetPassword = () => {
             <Typography
               variant='h3'
               color='text.primary'
-              component='h3'
+              component='h1'
               align={'center'}
               sx={{
                 fontSize: '32px',
                 fontWeight: 700,
               }}
             >
-              Reset Password
+              Reset password
             </Typography>
             <Controller
               name='email'
@@ -82,6 +89,7 @@ export const ResetPassword = () => {
               }}
               render={({ field, fieldState }) => (
                 <TextField
+                  fullWidth
                   error={!!fieldState.error}
                   label='Email'
                   placeholder={'Email'}
@@ -94,6 +102,7 @@ export const ResetPassword = () => {
             />
 
             <Button
+              fullWidth
               type='submit'
               variant='contained'
               color='primary'
@@ -105,6 +114,9 @@ export const ResetPassword = () => {
             >
               Reset
             </Button>
+            <Typography color={'text.primary'} align={'center'} component={'p'}>
+              Remember the password? <Link underline={'hover'} onClick={handleNavigateInLogIn} sx={{fontWeight:700}}>Log in</Link>
+            </Typography>
           </Box>
         </Box>
       </Container>

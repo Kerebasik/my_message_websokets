@@ -6,9 +6,14 @@ import {
   Container,
   IconButton,
   ThemeProvider,
+  Theme,
 } from '@mui/material';
 import LightIcon from '@mui/icons-material/Brightness5Rounded';
 import MoonIcon from '@mui/icons-material/Brightness4';
+import {
+  GetItemInLocalStorage,
+  SetItemInLocalStorage,
+} from './components/services/localStorage';
 
 const lightTheme = createTheme({
   palette: {
@@ -22,14 +27,26 @@ const darkTheme = createTheme({
   },
 });
 
+const CheckThemeInLocalStorage = (): Theme => {
+  if (GetItemInLocalStorage('theme') === 'dark') {
+    return darkTheme;
+  }
+  return lightTheme;
+};
+
 function App() {
-  const [currentTheme, setCurrentTheme] = useState(lightTheme);
+  const [currentTheme, setCurrentTheme] = useState(CheckThemeInLocalStorage());
 
   const handleThemeChange = () => {
     setCurrentTheme((prevTheme) =>
       prevTheme === lightTheme ? darkTheme : lightTheme
     );
+    SetItemInLocalStorage(
+      'theme',
+      currentTheme === lightTheme ? 'dark' : 'light'
+    );
   };
+
   return (
     <>
       <ThemeProvider theme={currentTheme}>

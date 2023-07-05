@@ -2,7 +2,7 @@ FROM node:19-alpine As Development
 
 ENV NODE_ENV=development
 
-WORKDIR /user/app
+WORKDIR /app
 
 COPY package*.json ./
 COPY yarn.lock ./

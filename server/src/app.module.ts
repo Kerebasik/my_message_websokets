@@ -1,18 +1,23 @@
 import { Module } from '@nestjs/common';
-import {GqlModuleOptions, GraphQLModule as NestGraphQLModule} from '@nestjs/graphql';
+import {
+  GqlModuleOptions,
+  GraphQLModule as NestGraphQLModule,
+} from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
-import {MongooseModule} from '@nestjs/mongoose';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import mongodbConfig from "./database/mongodb.config";
+import mongodbConfig from './database/mongodb.config';
+import { AuthModule } from './modules/auth.module';
+import { UserModule } from './modules/user.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [mongodbConfig],
-      isGlobal: true
+      isGlobal: true,
     }),
     NestGraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -23,9 +28,9 @@ import mongodbConfig from "./database/mongodb.config";
           installSubscriptionHandlers: true,
           sortSchema: true,
           playground: true,
-          debug: configService.get<boolean>("DEBUG"),
+          debug: configService.get<boolean>('DEBUG'),
           uploads: false,
-        } as GqlModuleOptions
+        } as GqlModuleOptions;
       },
       inject: [ConfigService],
     }),
@@ -35,10 +40,11 @@ import mongodbConfig from "./database/mongodb.config";
         uri: configService.get<string>('MONGODB_URI'),
       }),
       inject: [ConfigService],
-    })
+    }),
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-
 export class AppModule {}

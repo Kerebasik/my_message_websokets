@@ -25,6 +25,8 @@ services:
     networks:
       - appnet
     env_file: 'server/.env'
+    ports:
+      - '27017:27017'
     volumes:
       - ./db_data:/data/db
     environment:

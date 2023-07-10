@@ -3,7 +3,7 @@ import { CreateUserInput } from '../inputs/create-user.input';
 import { User } from '../schemas/user.schema';
 import { UserService } from '../services/user.service';
 
-@Resolver()
+@Resolver(()=> User)
 export class UserResolver {
   constructor(private userService: UserService) {}
 

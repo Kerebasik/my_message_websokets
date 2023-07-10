@@ -12,6 +12,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import mongodbConfig from './database/mongodb.config';
 import { AuthModule } from './modules/auth.module';
 import { UserModule } from './modules/user.module';
+import { GroupModule } from './modules/group.module';
+import { ChannelModule } from './modules/channel.module';
+import { PostModule } from './modules/post.module';
 
 @Module({
   imports: [
@@ -43,6 +46,9 @@ import { UserModule } from './modules/user.module';
     }),
     AuthModule,
     UserModule,
+    GroupModule,
+    ChannelModule,
+    PostModule
   ],
   controllers: [AppController],
   providers: [AppService],

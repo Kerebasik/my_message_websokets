@@ -1,0 +1,215 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AddUserToGroupInput {
+  """Group """
+  group_id: String!
+
+  """User to add """
+  user_id: String!
+}
+
+type Channel {
+  _id: ID!
+
+  """Channel name """
+  channel_name: String!
+
+  """Channel creation date """
+  created_at: DateTime!
+
+  """Channel description """
+  description: String
+
+  """Channel posts"""
+  posts: [Post!]!
+
+  """Channel subscribers"""
+  subscribers: [User!]!
+}
+
+input CreateChannelInput {
+  """Channel name """
+  channel_name: String!
+
+  """Group description"""
+  description: String
+}
+
+input CreateGroupInput {
+  """Group description"""
+  description: String
+
+  """Group name """
+  group_name: String!
+}
+
+input CreateMessageInput {
+  """Receiver of the message"""
+  receiver: String!
+
+  """Receiver type"""
+  receiver_model: String!
+
+  """Sender of the message"""
+  sender: String!
+
+  """Text of the message"""
+  text: String!
+}
+
+input CreatePostInput {
+  """Channel for the post """
+  channel: String!
+
+  """Post text"""
+  text: String!
+}
+
+input CreateUserInput {
+  """email of the user"""
+  email: String!
+
+  """first name of the user"""
+  firstName: String!
+
+  """last name of the user"""
+  lastName: String!
+
+  """password of the user"""
+  password: String!
+
+  """phone of the user"""
+  phone: String!
+
+  """role of the user"""
+  role: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Group {
+  _id: ID!
+
+  """User creation date """
+  created_at: DateTime!
+
+  """User description """
+  description: String
+
+  """Group name """
+  group_name: String!
+
+  """Group members"""
+  members: [User!]!
+
+  """Group messages"""
+  messages: [Message!]!
+}
+
+type LoggedUserOutput {
+  """Generated access_token of the user"""
+  access_token: String!
+}
+
+input LoginUserInput {
+  """email of the user"""
+  email: String!
+
+  """password of the user"""
+  password: String!
+}
+
+type Message {
+  _id: ID!
+
+  """Message creation date """
+  created_at: DateTime!
+
+  """User receiver"""
+  receiver: Post!
+
+  """User sender"""
+  sender: User!
+
+  """Text of the message"""
+  text: String!
+
+  """Message update date """
+  updated_at: DateTime!
+}
+
+type Mutation {
+  addCommentToPost(addCommentToPostInput: CreateMessageInput!): Post!
+  addUserToGroup(addUserToGroupInput: AddUserToGroupInput!): Group!
+  createChannel(createChannelInput: CreateChannelInput!): Channel!
+  createGroup(createGroupInput: CreateGroupInput!): Group!
+  createPost(createPostInput: CreatePostInput!): Post!
+  loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
+  registerUser(registerUserInput: CreateUserInput!): User!
+  removeUserFromGroup(removeUserFromGroup: AddUserToGroupInput!): Group!
+}
+
+type Post {
+  _id: ID!
+
+  """Channel for the post"""
+  channel: Channel!
+
+  """Post comments"""
+  comments: [Message!]!
+
+  """Post creation date """
+  created_at: DateTime!
+
+  """Text of the post"""
+  text: String!
+
+  """Post update date """
+  updated_at: DateTime!
+}
+
+type Query {
+  getGroupById(id: String!): Group!
+  getUserByEmail(email: String!): User!
+  getUserById(id: String!): User!
+  getUserByPhone(phone: String!): User!
+}
+
+type User {
+  _id: ID!
+
+  """User biography """
+  bio: String!
+
+  """User groups"""
+  channels: [Channel!]!
+
+  """User creation date """
+  created_at: DateTime!
+
+  """User email """
+  email: String!
+
+  """User firstName """
+  firstName: String!
+
+  """User groups"""
+  groups: [Group!]!
+
+  """User lastName """
+  lastName: String!
+
+  """User phone """
+  phone: String!
+
+  """User role"""
+  role: String!
+
+  """User nickname """
+  username: String!
+}

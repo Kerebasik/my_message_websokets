@@ -2,14 +2,17 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import mongoose, { Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Group } from './group.schema';
-import { Type } from 'class-transformer';
 import { Channel } from './channel.schema';
+import { Message } from './message.schema';
+import { Chat } from './chat.schema';
+import {v4 as uuid4 } from 'uuid'
 
 @Schema()
 @ObjectType()
 export class User {
+  @Prop({default: uuid4})
   @Field(() => ID)
-  _id: MongooseSchema.Types.UUID | string;
+  _id: string;
 
   @Prop({ required: true })
   @Field(() => String, { description: 'User firstName ' })
@@ -47,16 +50,27 @@ export class User {
   created_at: MongooseSchema.Types.Date;
 
   @Prop({
-    type: [{ type: mongoose.Schema.Types.UUID, ref: 'Group' }],
+    type: [{ type: mongoose.Schema.Types.String, ref: 'Group' }],
   })
   @Field(() => [Group], { description: 'User groups' })
   groups: Group[];
 
   @Prop({
-    type: [{ type: mongoose.Schema.Types.UUID, ref: 'Channel' }],
+    type: [{ type: mongoose.Schema.Types.String, ref: 'Channel' }],
   })
-  @Field(() => [Channel], { description: 'User groups' })
+  @Field(() => [Channel], { description: 'User channels' })
   channels: Channel[];
+
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.String, ref: 'Chat' }],
+  })
+  @Field(() => [Chat], { description: 'User chats' })
+  chats: Chat[];
+
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.String, ref: 'Message' }],
+  })
+  messages: Message[];
 
 }
 

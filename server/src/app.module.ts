@@ -15,6 +15,8 @@ import { UserModule } from './modules/user.module';
 import { GroupModule } from './modules/group.module';
 import { ChannelModule } from './modules/channel.module';
 import { PostModule } from './modules/post.module';
+import { ChatModule } from './modules/chat.module';
+import { MessageModule } from './modules/message.module';
 
 @Module({
   imports: [
@@ -48,7 +50,9 @@ import { PostModule } from './modules/post.module';
     UserModule,
     GroupModule,
     ChannelModule,
-    PostModule
+    PostModule,
+    ChatModule,
+    MessageModule
   ],
   controllers: [AppController],
   providers: [AppService],

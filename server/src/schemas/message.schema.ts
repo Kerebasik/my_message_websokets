@@ -5,22 +5,26 @@ import { User } from './user.schema';
 import { Group } from './group.schema';
 import { Post } from './post.schema';
 import { ReceiverType } from '../unions/receiver.union';
+import { Chat } from './chat.schema';
+import {v4 as uuid4 } from 'uuid'
+
 
 @Schema()
 @ObjectType()
 export class Message {
+  @Prop({default: uuid4})
   @Field(() => ID)
-  _id: MongooseSchema.Types.UUID | string;
+  _id: string;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
+  @Prop({ type: MongooseSchema.Types.String, ref: 'User' })
   @Field(() => User, { description: 'User sender' })
   sender: User;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, refPath: 'receiver_model' })
-  @Field(() => Post, { description: 'User receiver' })
-  receiver: Post | Group;
+  @Prop({ type: MongooseSchema.Types.String, refPath: 'receiver_model' })
+  @Field(() => ReceiverType, { description: 'User receiver' })
+  receiver: Post | Group | Chat;
 
-  @Prop({ type: MongooseSchema.Types.String, enum: ['Group', 'Post'] })
+  @Prop({ type: MongooseSchema.Types.String, enum: ['Group', 'Post', 'Chat'] })
   receiver_model: String;
 
   @Prop({ required: true })

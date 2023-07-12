@@ -29,12 +29,36 @@ type Channel {
   subscribers: [User!]!
 }
 
+type Chat {
+  _id: ID!
+
+  """User creation date """
+  created_at: DateTime!
+
+  """First companion in the chat """
+  first_companion: User!
+
+  """Group messages"""
+  messages: [Message!]!
+
+  """Second companion in the chat """
+  second_companion: User!
+}
+
 input CreateChannelInput {
   """Channel name """
   channel_name: String!
 
   """Group description"""
   description: String
+}
+
+input CreateChatInput {
+  """First companion in the chat"""
+  first_companion: String!
+
+  """Second companion in the chat"""
+  second_companion: String
 }
 
 input CreateGroupInput {
@@ -50,7 +74,7 @@ input CreateMessageInput {
   receiver: String!
 
   """Receiver type"""
-  receiver_model: String!
+  receiver_model: String
 
   """Sender of the message"""
   sender: String!
@@ -131,7 +155,7 @@ type Message {
   created_at: DateTime!
 
   """User receiver"""
-  receiver: Post!
+  receiver: ReceiverType!
 
   """User sender"""
   sender: User!
@@ -144,14 +168,19 @@ type Message {
 }
 
 type Mutation {
-  addCommentToPost(addCommentToPostInput: CreateMessageInput!): Post!
   addUserToGroup(addUserToGroupInput: AddUserToGroupInput!): Group!
   createChannel(createChannelInput: CreateChannelInput!): Channel!
+  createChat(createChatInput: CreateChatInput!): Chat!
   createGroup(createGroupInput: CreateGroupInput!): Group!
   createPost(createPostInput: CreatePostInput!): Post!
+  deleteMessageById(id: String!): Message!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
   registerUser(registerUserInput: CreateUserInput!): User!
   removeUserFromGroup(removeUserFromGroup: AddUserToGroupInput!): Group!
+  sendCommentToPost(createMessageInput: CreateMessageInput!): Post!
+  sendMessageToChat(createMessageInput: CreateMessageInput!): Chat!
+  sendMessageToGroup(createMessageInput: CreateMessageInput!): Group!
+  updateMessageById(updateMessageByIdInput: UpdateMessageInput!): Message!
 }
 
 type Post {
@@ -180,14 +209,27 @@ type Query {
   getUserByPhone(phone: String!): User!
 }
 
+union ReceiverType = Chat | Group | Post
+
+input UpdateMessageInput {
+  """Id of the message"""
+  message_id: String!
+
+  """Text of the message"""
+  text: String!
+}
+
 type User {
   _id: ID!
 
   """User biography """
   bio: String!
 
-  """User groups"""
+  """User channels"""
   channels: [Channel!]!
+
+  """User chats"""
+  chats: [Chat!]!
 
   """User creation date """
   created_at: DateTime!

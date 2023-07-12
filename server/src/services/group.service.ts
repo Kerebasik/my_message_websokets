@@ -1,16 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UserDocument, User } from '../schemas/user.schema';
-import { CreateUserInput } from '../inputs/create-user.input';
-import * as bcrypt from 'bcrypt';
 import { Group, GroupDocument } from '../schemas/group.schema';
 import { CreateGroupInput } from '../inputs/create-group.input';
 import { AddUserToGroupInput } from '../inputs/add-user-to-group.input';
+import { User, UserDocument } from '../schemas/user.schema';
 
 @Injectable()
 export class GroupService {
-  constructor(@InjectModel(Group.name) private groupModel: Model<GroupDocument>) {}
+  constructor(@InjectModel(Group.name) private groupModel: Model<GroupDocument>,
+              @InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async createGroup(createGroupInput: CreateGroupInput) {
     const group = new this.groupModel(createGroupInput);
@@ -18,6 +17,11 @@ export class GroupService {
   }
 
   async addUserToGroup(addUserToGroupInput: AddUserToGroupInput) {
+    await this.userModel.findByIdAndUpdate(
+      addUserToGroupInput.user_id,
+      { $push: { groups: addUserToGroupInput.group_id } },
+      { new: true, useFindAndModify: false }
+    )
     return this.groupModel.findByIdAndUpdate(
       addUserToGroupInput.group_id,
       { $push: { members: addUserToGroupInput.user_id } },
@@ -26,6 +30,11 @@ export class GroupService {
   }
 
   async removeUserFromGroup(removeUserToGroupInput: AddUserToGroupInput) {
+    await this.userModel.findByIdAndUpdate(
+      removeUserToGroupInput.user_id,
+      { $pull: { groups: removeUserToGroupInput.group_id } },
+      { new: true, useFindAndModify: false }
+    )
     return this.groupModel.findByIdAndUpdate(
       removeUserToGroupInput.group_id,
       { $pull: { members: removeUserToGroupInput.user_id } },

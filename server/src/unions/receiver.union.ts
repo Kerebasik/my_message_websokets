@@ -1,12 +1,9 @@
+import { createUnionType } from '@nestjs/graphql';
 import { Group } from '../schemas/group.schema';
+import { Chat } from '../schemas/chat.schema';
 import { Post } from '../schemas/post.schema';
 
-type GroupBox = {
-  value: Group
-}
-
-type PostBox = {
-  value: Post
-}
-
-export type ReceiverType = GroupBox | PostBox
+export const ReceiverType = createUnionType({
+  name: "ReceiverType",
+  types: () => [Post, Group, Chat] as const,
+});

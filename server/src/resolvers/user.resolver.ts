@@ -26,5 +26,4 @@ export class UserResolver {
   async getUserByPhone(@Args('phone') phone: string) {
     return this.userService.getUserByPhone(phone);
   }
-
 }

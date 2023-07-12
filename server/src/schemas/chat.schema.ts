@@ -7,24 +7,18 @@ import {v4 as uuid4 } from 'uuid'
 
 @Schema()
 @ObjectType()
-export class Group {
+export class Chat {
   @Prop({default: uuid4})
   @Field(() => ID)
   _id: string;
 
-  @Prop({ required: true })
-  @Field(() => String, { description: 'Group name ' })
-  group_name: string;
+  @Prop({ type: mongoose.Schema.Types.String, ref: 'User', unique: true })
+  @Field(() => User, { description: 'First companion in the chat ' })
+  first_companion: User;
 
-  @Prop({ required: false })
-  @Field(() => String, { nullable: true, description: 'User description ' })
-  description?: string;
-
-  @Prop({
-    type: [{ type: mongoose.Schema.Types.String, ref: 'User' }],
-  })
-  @Field(() => [User], { description: 'Group members' })
-  members: User[];
+  @Prop({ type: mongoose.Schema.Types.String, ref: 'User' , unique: true})
+  @Field(() => User, { description: 'Second companion in the chat ' })
+  second_companion: User;
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.String, ref: 'Message' }],
@@ -37,7 +31,8 @@ export class Group {
   created_at: MongooseSchema.Types.Date;
 }
 
-export const GroupSchema = SchemaFactory.createForClass(Group);
-export type GroupDocument = Group & mongoose.Document;
+export const ChatSchema = SchemaFactory.createForClass(Chat);
+export type ChatDocument = Chat & mongoose.Document;
 
-GroupSchema.index({ group_name: 1 });
+ChatSchema.index({ first_companion: 1 });
+ChatSchema.index({ second_companion: 1 });

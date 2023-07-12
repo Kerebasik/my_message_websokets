@@ -3,14 +3,17 @@ import mongoose, { Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Channel } from './channel.schema';
 import { Message } from './message.schema';
+import {v4 as uuid4 } from 'uuid'
+
 
 @Schema()
 @ObjectType()
 export class Post {
+  @Prop({default: uuid4})
   @Field(() => ID)
-  _id: MongooseSchema.Types.UUID | string;
+  _id: string;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Channel' })
+  @Prop({ type: MongooseSchema.Types.String, ref: 'Channel' })
   @Field(() => Channel, { description: 'Channel for the post' })
   channel: Channel;
 
@@ -19,7 +22,7 @@ export class Post {
   text: string;
 
   @Prop({
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Message' }],
+    type: [{ type: mongoose.Schema.Types.String, ref: 'Message' }],
   })
   @Field(() => [Message], { description: 'Post comments' })
   comments: Message[];

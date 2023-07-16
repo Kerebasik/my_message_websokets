@@ -17,9 +17,11 @@ import { ChannelModule } from './modules/channel.module';
 import { PostModule } from './modules/post.module';
 import { ChatModule } from './modules/chat.module';
 import { MessageModule } from './modules/message.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     ConfigModule.forRoot({
       load: [mongodbConfig],
       isGlobal: true,

@@ -10,7 +10,7 @@ export class PostService {
 
   async createPost(createPostInput: CreatePostInput) {
     const post = new this.postModel(createPostInput);
-    return (await post.save()).populate('channel');
+    return (await post.save()).populate({path: 'channel', populate: {path: 'posts', model: 'Post'}});
   }
 
   async deletePost(id: string) {

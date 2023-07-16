@@ -25,7 +25,7 @@ export class UserService {
   }
 
   async getUserByEmail(email: string) {
-    const user = this.userModel.findOne({email}).populate('groups', 'chats', 'channels').lean()
+    const user = this.userModel.findOne({email}).populate('groups', 'chats').lean()
     if(!user) {
       throw new NotFoundException(`User doesn't exists`)
     } else {

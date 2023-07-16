@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddUserToChannelInput {
+  """Channel """
+  channel_id: String!
+
+  """User to add """
+  user_id: String!
+}
+
 input AddUserToGroupInput {
   """Group """
   group_id: String!
@@ -12,6 +20,9 @@ input AddUserToGroupInput {
 
 type Channel {
   _id: ID!
+
+  """Channel admins"""
+  channel_admins: [User!]!
 
   """Channel name """
   channel_name: String!
@@ -168,11 +179,13 @@ type Message {
 }
 
 type Mutation {
+  addUserToAdminPool(addUserToAdminPoolInput: AddUserToChannelInput!): Channel!
+  addUserToChannel(addUserToChannelInput: AddUserToChannelInput!): Channel!
   addUserToGroup(addUserToGroupInput: AddUserToGroupInput!): Group!
   createChannel(createChannelInput: CreateChannelInput!): Channel!
   createChat(createChatInput: CreateChatInput!): Chat!
   createGroup(createGroupInput: CreateGroupInput!): Group!
-  createPost(createPostInput: CreatePostInput!): Post!
+  createPost(input: CreatePostInput!): Post!
   deleteMessageById(id: String!): Message!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
   registerUser(registerUserInput: CreateUserInput!): User!

@@ -30,6 +30,9 @@ type Channel {
   """Channel creation date """
   created_at: DateTime!
 
+  """Creator of the channel """
+  creator: User!
+
   """Channel description """
   description: String
 
@@ -103,6 +106,9 @@ input CreatePostInput {
 }
 
 input CreateUserInput {
+  """last name of the user"""
+  bio: String
+
   """email of the user"""
   email: String!
 
@@ -117,9 +123,6 @@ input CreateUserInput {
 
   """phone of the user"""
   phone: String!
-
-  """role of the user"""
-  role: String!
 }
 
 """
@@ -179,7 +182,7 @@ type Message {
 }
 
 type Mutation {
-  addUserToAdminPool(addUserToAdminPoolInput: AddUserToChannelInput!): Channel!
+  addUserToAdminPool(input: AddUserToChannelInput!): Channel!
   addUserToChannel(addUserToChannelInput: AddUserToChannelInput!): Channel!
   addUserToGroup(addUserToGroupInput: AddUserToGroupInput!): Group!
   createChannel(createChannelInput: CreateChannelInput!): Channel!
@@ -216,6 +219,7 @@ type Post {
 }
 
 type Query {
+  getChannelById(id: String!): Channel!
   getGroupById(id: String!): Group!
   getUserByEmail(email: String!): User!
   getUserById(id: String!): User!
@@ -261,9 +265,6 @@ type User {
 
   """User phone """
   phone: String!
-
-  """User role"""
-  role: String!
 
   """User nickname """
   username: String!

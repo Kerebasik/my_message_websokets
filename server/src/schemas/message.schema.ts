@@ -6,13 +6,12 @@ import { Group } from './group.schema';
 import { Post } from './post.schema';
 import { ReceiverType } from '../unions/receiver.union';
 import { Chat } from './chat.schema';
-import {v4 as uuid4 } from 'uuid'
-
+import { v4 as uuid4 } from 'uuid';
 
 @Schema()
 @ObjectType()
 export class Message {
-  @Prop({default: uuid4})
+  @Prop({ default: uuid4 })
   @Field(() => ID)
   _id: string;
 
@@ -42,4 +41,3 @@ export class Message {
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
 export type MessageDocument = Message & mongoose.Document;
-

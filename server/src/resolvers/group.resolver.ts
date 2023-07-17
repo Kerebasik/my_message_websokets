@@ -4,7 +4,7 @@ import { CreateGroupInput } from '../inputs/create-group.input';
 import { GroupService } from '../services/group.service';
 import { AddUserToGroupInput } from '../inputs/add-user-to-group.input';
 
-@Resolver(()=> Group)
+@Resolver(() => Group)
 export class GroupResolver {
   constructor(private groupService: GroupService) {}
 
@@ -14,12 +14,16 @@ export class GroupResolver {
   }
 
   @Mutation(() => Group)
-  async addUserToGroup(@Args('addUserToGroupInput') addUserToGroupInput: AddUserToGroupInput) {
+  async addUserToGroup(
+    @Args('addUserToGroupInput') addUserToGroupInput: AddUserToGroupInput,
+  ) {
     return this.groupService.addUserToGroup(addUserToGroupInput);
   }
 
   @Mutation(() => Group)
-  async removeUserFromGroup(@Args('removeUserFromGroup') removeUserFromGroup: AddUserToGroupInput) {
+  async removeUserFromGroup(
+    @Args('removeUserFromGroup') removeUserFromGroup: AddUserToGroupInput,
+  ) {
     return this.groupService.removeUserFromGroup(removeUserFromGroup);
   }
 

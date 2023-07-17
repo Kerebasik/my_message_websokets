@@ -5,12 +5,12 @@ import { Group } from './group.schema';
 import { Channel } from './channel.schema';
 import { Message } from './message.schema';
 import { Chat } from './chat.schema';
-import {v4 as uuid4 } from 'uuid'
+import { v4 as uuid4 } from 'uuid';
 
 @Schema()
 @ObjectType()
 export class User {
-  @Prop({default: uuid4})
+  @Prop({ default: uuid4 })
   @Field(() => ID)
   _id: string;
 
@@ -33,10 +33,6 @@ export class User {
   @Prop({ required: true, unique: true })
   @Field(() => String, { description: 'User email ' })
   email: string;
-
-  @Prop({ required: false })
-  @Field(() => String, { description: 'User role' })
-  role: string;
 
   @Prop({ required: true })
   password: string;
@@ -71,7 +67,6 @@ export class User {
     type: [{ type: mongoose.Schema.Types.String, ref: 'Message' }],
   })
   messages: Message[];
-
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

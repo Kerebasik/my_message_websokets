@@ -5,7 +5,7 @@ import { CreatePostInput } from '../inputs/create-post.input';
 import { AdminGuard } from '../guards/admin.guard';
 import { UseGuards } from '@nestjs/common';
 
-@Resolver(()=> Post)
+@Resolver(() => Post)
 export class PostResolver {
   constructor(private postService: PostService) {}
 

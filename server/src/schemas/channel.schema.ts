@@ -3,14 +3,18 @@ import mongoose, { Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User } from './user.schema';
 import { Post } from './post.schema';
-import {v4 as uuid4 } from 'uuid'
+import { v4 as uuid4 } from 'uuid';
 
 @Schema()
 @ObjectType()
 export class Channel {
-  @Prop({default: uuid4})
+  @Prop({ default: uuid4 })
   @Field(() => ID)
   _id: string;
+
+  @Prop({ type: mongoose.Schema.Types.String, ref: 'User' })
+  @Field(() => User, { description: 'Creator of the channel ' })
+  creator: User;
 
   @Prop({ required: true })
   @Field(() => String, { description: 'Channel name ' })
@@ -19,7 +23,7 @@ export class Channel {
   @Prop({
     type: [{ type: mongoose.Schema.Types.String, ref: 'User' }],
   })
-  @Field(() => [User], { description: 'Channel admins'})
+  @Field(() => [User], { description: 'Channel admins' })
   channel_admins: User[];
 
   @Prop({ required: false })

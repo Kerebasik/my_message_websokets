@@ -3,7 +3,7 @@ import { Chat } from '../schemas/chat.schema';
 import { ChatService } from '../services/chat.service';
 import { CreateChatInput } from '../inputs/create-chat.input';
 
-@Resolver(()=> Chat)
+@Resolver(() => Chat)
 export class ChatResolver {
   constructor(private chatService: ChatService) {}
 

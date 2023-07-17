@@ -7,7 +7,10 @@ import { User, UserSchema } from '../schemas/user.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Group.name, schema: GroupSchema }, {name: User.name, schema: UserSchema}]),
+    MongooseModule.forFeature([
+      { name: Group.name, schema: GroupSchema },
+      { name: User.name, schema: UserSchema },
+    ]),
   ],
   providers: [GroupService, GroupResolver],
 })

@@ -17,26 +17,29 @@ export class UserService {
 
   async getUserById(id: string) {
     const user = this.userModel.findById(id).lean();
-    if(!user) {
-      throw new NotFoundException(`User doesn't exists`)
+    if (!user) {
+      throw new NotFoundException(`User doesn't exists`);
     } else {
       return user;
     }
   }
 
   async getUserByEmail(email: string) {
-    const user = this.userModel.findOne({email}).populate('groups', 'chats').lean()
-    if(!user) {
-      throw new NotFoundException(`User doesn't exists`)
+    const user = this.userModel
+      .findOne({ email })
+      .populate('groups', 'chats')
+      .lean();
+    if (!user) {
+      throw new NotFoundException(`User doesn't exists`);
     } else {
       return user;
     }
   }
 
   async getUserByPhone(phone: string) {
-    const user = this.userModel.findOne({phone}).lean();
-    if(!user) {
-      throw new NotFoundException(`User doesn't exists`)
+    const user = this.userModel.findOne({ phone }).lean();
+    if (!user) {
+      throw new NotFoundException(`User doesn't exists`);
     } else {
       return user;
     }

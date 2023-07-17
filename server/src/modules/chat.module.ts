@@ -7,7 +7,10 @@ import { ChatResolver } from '../resolvers/chat.resolver';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Chat.name, schema: ChatSchema }, {name: User.name, schema: UserSchema}]),
+    MongooseModule.forFeature([
+      { name: Chat.name, schema: ChatSchema },
+      { name: User.name, schema: UserSchema },
+    ]),
   ],
   providers: [ChatService, ChatResolver],
 })

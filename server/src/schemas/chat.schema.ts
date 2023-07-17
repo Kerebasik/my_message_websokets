@@ -3,12 +3,12 @@ import mongoose, { Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User } from './user.schema';
 import { Message } from './message.schema';
-import {v4 as uuid4 } from 'uuid'
+import { v4 as uuid4 } from 'uuid';
 
 @Schema()
 @ObjectType()
 export class Chat {
-  @Prop({default: uuid4})
+  @Prop({ default: uuid4 })
   @Field(() => ID)
   _id: string;
 
@@ -16,7 +16,7 @@ export class Chat {
   @Field(() => User, { description: 'First companion in the chat ' })
   first_companion: User;
 
-  @Prop({ type: mongoose.Schema.Types.String, ref: 'User' , unique: true})
+  @Prop({ type: mongoose.Schema.Types.String, ref: 'User', unique: true })
   @Field(() => User, { description: 'Second companion in the chat ' })
   second_companion: User;
 

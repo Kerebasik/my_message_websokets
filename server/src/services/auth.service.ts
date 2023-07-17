@@ -6,20 +6,20 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { User } from '../schemas/user.schema';
-import { JwtService } from '@nestjs/jwt';
 import { UserService } from './user.service';
 import { LoginUserInput } from '../inputs/login-user.input';
+import { TokenService } from './token.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(forwardRef(() => UserService))
     private userService: UserService,
-    private jwtTokenService: JwtService,
+    private tokenService: TokenService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userService.getUserByEmail(email) as User;
+    const user = (await this.userService.getUserByEmail(email)) as User;
     if (user && (await bcrypt.compare(password, user.password))) {
       delete user.password;
       return user;
@@ -30,12 +30,11 @@ export class AuthService {
   async generateAccessToken(user: User) {
     const payload = {
       email: user.email,
-      role: user.role,
       sub: user._id,
     };
 
     return {
-      access_token: this.jwtTokenService.sign(payload),
+      access_token: this.tokenService.signToken(payload),
     };
   }
 
@@ -50,5 +49,4 @@ export class AuthService {
       return this.generateAccessToken(user);
     }
   }
-
 }

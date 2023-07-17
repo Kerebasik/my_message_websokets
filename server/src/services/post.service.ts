@@ -10,10 +10,16 @@ export class PostService {
 
   async createPost(createPostInput: CreatePostInput) {
     const post = new this.postModel(createPostInput);
-    return (await post.save()).populate({path: 'channel', populate: {path: 'posts', model: 'Post'}});
+    return (await post.save()).populate({
+      path: 'channel',
+      populate: { path: 'posts', model: 'Post' },
+    });
   }
 
   async deletePost(id: string) {
-    return this.postModel.findByIdAndDelete(id).populate('channel', 'comments').lean();
+    return this.postModel
+      .findByIdAndDelete(id)
+      .populate('channel', 'comments')
+      .lean();
   }
 }

@@ -4,6 +4,6 @@ import { Chat } from '../schemas/chat.schema';
 import { Post } from '../schemas/post.schema';
 
 export const ReceiverType = createUnionType({
-  name: "ReceiverType",
+  name: 'ReceiverType',
   types: () => [Post, Group, Chat] as const,
 });

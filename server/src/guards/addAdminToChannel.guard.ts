@@ -10,7 +10,7 @@ import { Channel } from '../schemas/channel.schema';
 import { TokenService } from '../services/token.service';
 
 @Injectable()
-export class AdminGuard {
+export class AddAdminToChannelGuard {
   constructor(
     private readonly tokenService: TokenService,
     private readonly channelService: ChannelService,
@@ -28,16 +28,16 @@ export class AdminGuard {
 
     const token = authorization.replace('Bearer ', '');
 
-    const decoded = this.tokenService.verifyToken(token);
+    const decoded = this.tokenService.verifyToken(token)
     const sub = decoded.sub;
 
     const channel = (await this.channelService.getChannelById(
-      ctx.getArgs().input.channel,
+      ctx.getArgs().input.channel_id,
     )) as Channel;
 
-    if (channel.channel_admins.filter((user) => user._id === sub).length <= 0) {
+    if (sub !== channel.creator._id) {
       throw new ForbiddenException(
-        'Only admins of the channel authorized to perform this action.',
+        'Only creator of the channel are allowed to add admins to the channel',
       );
     }
     return true;

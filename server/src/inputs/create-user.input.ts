@@ -9,12 +9,12 @@ export class CreateUserInput {
   @Field(() => String, { description: 'last name of the user' })
   lastName: string;
 
+  @Field(() => String, { nullable: true, description: 'last name of the user' })
+  bio: string;
+
   @IsEmail()
   @Field(() => String, { description: 'email of the user' })
   email: string;
-
-  @Field(() => String, { description: 'role of the user' })
-  role: string;
 
   @Field(() => String, { description: 'phone of the user' })
   phone: string;

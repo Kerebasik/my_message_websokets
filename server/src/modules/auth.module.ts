@@ -5,10 +5,11 @@ import { UserSchema } from '../schemas/user.schema';
 import { AuthResolver } from '../resolvers/auth.resolver';
 import { AuthService } from '../services/auth.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { UserModule } from './user.module';
 import { UserService } from '../services/user.service';
 import { JwtStrategy } from '../strategies/auth.strategy';
+import { TokenService } from '../services/token.service';
 
 @Module({
   imports: [
@@ -25,6 +26,6 @@ import { JwtStrategy } from '../strategies/auth.strategy';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthResolver, AuthService, UserService, JwtStrategy],
+  providers: [AuthResolver, AuthService, UserService, JwtStrategy, TokenService, JwtService],
 })
 export class AuthModule {}

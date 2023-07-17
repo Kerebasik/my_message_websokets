@@ -12,22 +12,30 @@ export class MessageResolver {
   constructor(private messageService: MessageService) {}
 
   @Mutation(() => Group)
-  async sendMessageToGroup(@Args('createMessageInput') message: CreateMessageInput) {
+  async sendMessageToGroup(
+    @Args('createMessageInput') message: CreateMessageInput,
+  ) {
     return this.messageService.sendMessageToGroup(message);
   }
 
   @Mutation(() => Post)
-  async sendCommentToPost(@Args('createMessageInput') message: CreateMessageInput) {
+  async sendCommentToPost(
+    @Args('createMessageInput') message: CreateMessageInput,
+  ) {
     return this.messageService.sendCommentToPost(message);
   }
 
   @Mutation(() => Chat)
-  async sendMessageToChat(@Args('createMessageInput') message: CreateMessageInput) {
+  async sendMessageToChat(
+    @Args('createMessageInput') message: CreateMessageInput,
+  ) {
     return this.messageService.sendMessageToChat(message);
   }
 
   @Mutation(() => Message)
-  async updateMessageById(@Args('updateMessageByIdInput') updateMessageByIdInput: UpdateMessageInput) {
+  async updateMessageById(
+    @Args('updateMessageByIdInput') updateMessageByIdInput: UpdateMessageInput,
+  ) {
     return this.messageService.updateMessageById(updateMessageByIdInput);
   }
 

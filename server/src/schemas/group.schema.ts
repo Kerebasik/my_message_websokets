@@ -3,12 +3,12 @@ import mongoose, { Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User } from './user.schema';
 import { Message } from './message.schema';
-import {v4 as uuid4 } from 'uuid'
+import { v4 as uuid4 } from 'uuid';
 
 @Schema()
 @ObjectType()
 export class Group {
-  @Prop({default: uuid4})
+  @Prop({ default: uuid4 })
   @Field(() => ID)
   _id: string;
 

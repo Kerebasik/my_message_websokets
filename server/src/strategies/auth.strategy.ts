@@ -5,7 +5,6 @@ import * as dotenv from 'dotenv';
 import * as process from 'process';
 dotenv.config();
 
-
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
@@ -17,6 +16,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    return { userId: payload.sub }
+    return { userId: payload.sub };
   }
 }

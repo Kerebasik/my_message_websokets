@@ -4,12 +4,15 @@ import { Channel, ChannelSchema } from '../schemas/channel.schema';
 import { ChannelService } from '../services/channel.service';
 import { ChannelResolver } from '../resolvers/channel.resolver';
 import { User, UserSchema } from '../schemas/user.schema';
-import { JwtService } from '@nestjs/jwt';
+import { TokenService } from '../services/token.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Channel.name, schema: ChannelSchema }, {name: User.name, schema: UserSchema}]),
+    MongooseModule.forFeature([
+      { name: Channel.name, schema: ChannelSchema },
+      { name: User.name, schema: UserSchema },
+    ]),
   ],
-  providers: [ChannelService, ChannelResolver, JwtService],
+  providers: [ChannelService, ChannelResolver, TokenService],
 })
 export class ChannelModule {}

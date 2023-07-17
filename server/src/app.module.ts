@@ -54,7 +54,7 @@ import { PassportModule } from '@nestjs/passport';
     ChannelModule,
     PostModule,
     ChatModule,
-    MessageModule
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

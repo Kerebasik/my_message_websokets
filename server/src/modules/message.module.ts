@@ -9,10 +9,12 @@ import { MessageResolver } from '../resolvers/message.resolver';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Message.name, schema: MessageSchema },
-      {name: Post.name, schema: PostSchema},
-      {name: Group.name, schema: GroupSchema},
-      {name: Chat.name, schema: ChatSchema}]),
+    MongooseModule.forFeature([
+      { name: Message.name, schema: MessageSchema },
+      { name: Post.name, schema: PostSchema },
+      { name: Group.name, schema: GroupSchema },
+      { name: Chat.name, schema: ChatSchema },
+    ]),
   ],
   providers: [MessageService, MessageResolver],
 })

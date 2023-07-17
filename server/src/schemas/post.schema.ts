@@ -3,13 +3,12 @@ import mongoose, { Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Channel } from './channel.schema';
 import { Message } from './message.schema';
-import {v4 as uuid4 } from 'uuid'
-
+import { v4 as uuid4 } from 'uuid';
 
 @Schema()
 @ObjectType()
 export class Post {
-  @Prop({default: uuid4})
+  @Prop({ default: uuid4 })
   @Field(() => ID)
   _id: string;
 

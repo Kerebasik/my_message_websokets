@@ -12,4 +12,12 @@ mutation RegisterUser($email: String!, $firstName:String!, $lastName:String!, $p
         phone
     }
   }
+`);
+
+export const LOGIN = gql(`
+mutation LoginUser($email:String!, $password:String!) {
+    loginUser(loginUserInput: {email: $email, password: $password}) {
+        access_token
+    }
+}
 `)

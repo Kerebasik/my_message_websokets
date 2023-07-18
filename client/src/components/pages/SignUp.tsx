@@ -7,7 +7,6 @@ import {
   Typography,
 } from '@mui/material';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {useMutation} from "@apollo/client";
 import {REGISTRATION} from "../../mutation/auth";
@@ -24,7 +23,7 @@ interface SignUpForm {
 }
 
 const SignUp = () => {
-  const { control, handleSubmit, watch, reset } = useForm({
+  const { control, handleSubmit, watch, reset } = useForm<SignUpForm>({
     defaultValues: {
         email: '',
         password: '',
@@ -34,7 +33,7 @@ const SignUp = () => {
     },
   });
   const navigator = useNavigate();
-  const [RegisterUser,{error}]= useMutation(REGISTRATION)
+  const [RegisterUser]= useMutation(REGISTRATION)
   const password = watch('password');
   const email = watch('email');
   const phone = watch('phone');
@@ -42,9 +41,11 @@ const SignUp = () => {
   const lastName = watch('lastName')
 
   const handleOnSubmit: SubmitHandler<SignUpForm> = () => {
-        RegisterUser({variables:{email, firstName, lastName, password, phone}})
-            .then(()=>{
+        RegisterUser({variables:{email, firstName, lastName, password, phone}}).then(()=>{
             toast.success('User was created')
+            setTimeout(()=>{
+                navigator('/login')
+            },2000)
         }).catch(()=>{
             toast.error('Server error')
         }).finally(()=>{
@@ -152,7 +153,7 @@ const SignUp = () => {
                         message: 'Phone is required',
                     },
                 }}
-                render={({ field:{onChange, value}, fieldState }) => (
+                render={({ field:{onChange, value} }) => (
                     <PhoneInput
                         value={value}
                         onChange={onChange}

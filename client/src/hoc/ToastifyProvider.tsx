@@ -1,8 +1,9 @@
 import {FC, PropsWithChildren} from "react";
 import { ToastContainer } from 'react-toastify';
 import {useTheme} from "@mui/material";
+import 'react-toastify/dist/ReactToastify.css';
 
-const ToastifyProvider:FC<PropsWithChildren> = ({children}) => {
+const ToastProvider:FC<any> = ({children}) => {
   const theme = useTheme()
     return(
       <>
@@ -23,4 +24,4 @@ const ToastifyProvider:FC<PropsWithChildren> = ({children}) => {
   )
 }
 
-export default ToastifyProvider
+export default ToastProvider

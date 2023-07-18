@@ -9,6 +9,11 @@ import {
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {useMutation} from "@apollo/client";
+import {REGISTRATION} from "../../mutation/auth";
+import {toast} from "react-toastify";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/material.css'
 
 interface SignUpForm {
   email: string;
@@ -29,19 +34,22 @@ const SignUp = () => {
     },
   });
   const navigator = useNavigate();
-
+  const [RegisterUser,{error}]= useMutation(REGISTRATION)
   const password = watch('password');
   const email = watch('email');
   const phone = watch('phone');
   const firstName = watch('firstName');
   const lastName = watch('lastName')
 
-  useEffect(() => {
-    return () => reset();
-  }, []);
-
   const handleOnSubmit: SubmitHandler<SignUpForm> = () => {
-
+        RegisterUser({variables:{email, firstName, lastName, password, phone}})
+            .then(()=>{
+            toast.success('User was created')
+        }).catch(()=>{
+            toast.error('Server error')
+        }).finally(()=>{
+            reset()
+        })
   };
 
   const handleNavigateInLogIn = () => {
@@ -131,6 +139,23 @@ const SignUp = () => {
                         value={field.value}
                         helperText={fieldState.error?.message}
                         onChange={field.onChange}
+                    />
+                )}
+            />
+
+            <Controller
+                name='phone'
+                control={control}
+                rules={{
+                    required: {
+                        value: true,
+                        message: 'Phone is required',
+                    },
+                }}
+                render={({ field:{onChange, value}, fieldState }) => (
+                    <PhoneInput
+                        value={value}
+                        onChange={onChange}
                     />
                 )}
             />

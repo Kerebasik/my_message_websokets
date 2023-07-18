@@ -17,9 +17,10 @@ export class MessageService {
     @InjectModel(Post.name) private postModel: Model<PostDocument>,
   ) {}
 
-  async sendMessageToGroup(createMessageInput: CreateMessageInput) {
+  async sendMessageToGroup(createMessageInput: CreateMessageInput, sender: string) {
     const message = new this.messageModel({
       ...createMessageInput,
+      sender: sender,
       receiver_model: 'Group',
     });
     await message.save();
@@ -34,9 +35,10 @@ export class MessageService {
       .lean();
   }
 
-  async sendCommentToPost(createMessageInput: CreateMessageInput) {
+  async sendCommentToPost(createMessageInput: CreateMessageInput, sender: string) {
     const message = new this.messageModel({
       ...createMessageInput,
+      sender: sender,
       receiver_model: 'Post',
     });
     await message.save();
@@ -51,9 +53,10 @@ export class MessageService {
       .lean();
   }
 
-  async sendMessageToChat(createMessageInput: CreateMessageInput) {
+  async sendMessageToChat(createMessageInput: CreateMessageInput, sender: string) {
     const message = new this.messageModel({
       ...createMessageInput,
+      sender: sender,
       receiver_model: 'Chat',
     });
     await message.save();

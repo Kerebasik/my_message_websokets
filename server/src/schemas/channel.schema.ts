@@ -26,6 +26,12 @@ export class Channel {
   @Field(() => [User], { description: 'Channel admins' })
   channel_admins: User[];
 
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.String, ref: 'User' }],
+  })
+  @Field(() => [User], { description: 'Banned users' })
+  banned_users: User[];
+
   @Prop({ required: false })
   @Field(() => String, { nullable: true, description: 'Channel description ' })
   description: string;

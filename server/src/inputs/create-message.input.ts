@@ -2,9 +2,6 @@ import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateMessageInput {
-  @Field(() => String, { description: 'Sender of the message' })
-  sender: string;
-
   @Field(() => String, { description: 'Receiver of the message' })
   receiver: string;
 

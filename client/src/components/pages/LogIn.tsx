@@ -7,8 +7,11 @@ import {
   Link,
 } from '@mui/material';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {useMutation} from "@apollo/client";
+import {LOGIN} from "../../mutation/auth";
+import {toast} from "react-toastify";
+import {SetItemInLocalStorage} from "../services/localStorage";
 
 interface LogInForm {
   email: string;
@@ -16,19 +19,17 @@ interface LogInForm {
 }
 
 const LoginForm = () => {
-  const { control, handleSubmit, watch, reset } = useForm({
+  const { control, handleSubmit, watch, reset } = useForm<LogInForm>({
     defaultValues: {
       email: '',
       password: '',
     },
   });
   const navigator = useNavigate();
+  const [LoginUser] = useMutation(LOGIN)
   const email = watch('email');
   const password = watch('password');
 
-  useEffect(() => {
-    return () => reset();
-  }, []);
 
   const handleNavigateInSignUp = () => {
     navigator('/signup');
@@ -39,11 +40,14 @@ const LoginForm = () => {
   };
 
   const onSubmit: SubmitHandler<LogInForm> = () => {
-    new Promise(() => {
-      console.log('Send data', email, password);
-    }).then(() => {
-      reset();
-    });
+      LoginUser({variables:{email, password}}).then((res)=>{
+          SetItemInLocalStorage('accessToken', res.data.loginUser.access_token)
+          toast.success('Log in is ready')
+      }).catch(()=>{
+          toast.error('Error server')
+      }).finally(()=>
+          reset()
+      )
   };
 
   return (

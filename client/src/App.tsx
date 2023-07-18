@@ -2,11 +2,15 @@ import React from 'react';
 import { Theme } from './hoc/Theme';
 import router from './routes/router';
 import { RouterProvider } from 'react-router-dom';
+import ToastProvider from "./hoc/ToastifyProvider";
 
-function App() {
+function App(
+) {
   return (
     <Theme>
-      <RouterProvider router={router} />
+        <ToastProvider>
+            <RouterProvider router={router} />
+        </ToastProvider>
     </Theme>
   );
 }

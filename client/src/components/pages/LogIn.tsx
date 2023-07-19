@@ -8,10 +8,11 @@ import {
 } from '@mui/material';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import {useMutation} from "@apollo/client";
-import {LOGIN} from "../../mutation/auth";
-import {toast} from "react-toastify";
-import {SetItemInLocalStorage} from "../services/localStorage";
+import { useMutation } from '@apollo/client';
+import { LOGIN } from '../../mutation/auth';
+import { toast } from 'react-toastify';
+import { SetItemInLocalStorage } from '../services/localStorage';
+import {RegularValidationForEmail, RegularValidationForPassword} from '../../enum/validation';
 
 interface LogInForm {
   email: string;
@@ -26,10 +27,9 @@ const LoginForm = () => {
     },
   });
   const navigator = useNavigate();
-  const [LoginUser] = useMutation(LOGIN)
+  const [LoginUser] = useMutation(LOGIN);
   const email = watch('email');
   const password = watch('password');
-
 
   const handleNavigateInSignUp = () => {
     navigator('/signup');
@@ -40,14 +40,15 @@ const LoginForm = () => {
   };
 
   const onSubmit: SubmitHandler<LogInForm> = () => {
-      LoginUser({variables:{email, password}}).then((res)=>{
-          SetItemInLocalStorage('accessToken', res.data.loginUser.access_token)
-          toast.success('Log in is ready')
-      }).catch(()=>{
-          toast.error('Error server')
-      }).finally(()=>
-          reset()
-      )
+    LoginUser({ variables: { email, password } })
+      .then((res) => {
+        SetItemInLocalStorage('accessToken', res.data.loginUser.access_token);
+        toast.success('Log in is ready');
+      })
+      .catch(() => {
+        toast.error('Error server');
+      })
+      .finally(() => reset());
   };
 
   return (
@@ -97,7 +98,7 @@ const LoginForm = () => {
                 message: 'Email is required',
               },
               pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                value:RegularValidationForEmail,
                 message: 'Email is not valid',
               },
             }}
@@ -123,7 +124,7 @@ const LoginForm = () => {
               minLength: { value: 6, message: 'Min length is 6 charters' },
               maxLength: { value: 20, message: 'Max length is 20 charters' },
               pattern: {
-                value: /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])/,
+                value: RegularValidationForPassword,
                 message: 'Password is not valid',
               },
             }}
@@ -142,7 +143,14 @@ const LoginForm = () => {
           />
 
           <Typography color={'text.primary'} align={'center'} component={'p'}>
-            Forgot password? <Link underline={'hover'} sx={{fontWeight:700}} onClick={handleNavigateInResetPassword}>Recover password</Link>
+            Forgot password?{' '}
+            <Link
+              underline={'hover'}
+              sx={{ fontWeight: 700 }}
+              onClick={handleNavigateInResetPassword}
+            >
+              Recover password
+            </Link>
           </Typography>
 
           <Button

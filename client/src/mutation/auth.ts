@@ -1,4 +1,4 @@
-import {gql} from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const REGISTRATION = gql(`
 mutation RegisterUser($email: String!, $firstName:String!, $lastName:String!, $password:String!, $phone:String!) {
@@ -20,4 +20,4 @@ mutation LoginUser($email:String!, $password:String!) {
         access_token
     }
 }
-`)
+`);

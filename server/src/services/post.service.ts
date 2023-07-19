@@ -15,6 +15,14 @@ export class PostService {
       populate: { path: 'posts', model: 'Post' },
     });
   }
+  async getPostById(id: string) {
+    return this.postModel
+      .findById(id)
+      .populate('channel')
+      .populate('comments')
+      .lean();
+  }
+
 
   async deletePost(id: string) {
     return this.postModel

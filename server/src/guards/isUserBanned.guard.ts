@@ -8,12 +8,15 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 import { ChannelService } from '../services/channel.service';
 import { Channel } from '../schemas/channel.schema';
 import { TokenService } from '../services/token.service';
+import { PostService } from '../services/post.service';
+import { Post } from '../schemas/post.schema';
 
 @Injectable()
-export class AdminGuard {
+export class IsUserBannedGuard {
   constructor(
     private readonly tokenService: TokenService,
     private readonly channelService: ChannelService,
+    private readonly postService: PostService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -28,16 +31,24 @@ export class AdminGuard {
 
     const token = authorization.replace('Bearer ', '');
 
-    const decoded = this.tokenService.verifyToken(token);
+    const decoded = this.tokenService.verifyToken(token)
     const sub = decoded.sub;
 
-    const channel = (await this.channelService.getChannelById(
-      ctx.getArgs().input.channel,
-    )) as Channel;
+    const post = (await this.postService.getPostById(
+      ctx.getArgs().input.receiver,
+    )) as Post;
 
-    if (sub !== channel.creator._id && (channel.channel_admins.filter(user=> user._id === sub)).length <= 0) {
+    const channel = await this.channelService.getChannelById(post.channel._id) as Channel;
+
+
+    if((channel.subscribers.filter(user=> user._id === sub)).length <= 0) {
       throw new ForbiddenException(
-        'Only creator or admins of the channel are allowed to make a posts',
+        'You are not a subscriber of the channel',
+      );
+    }
+    if ((channel.banned_users.filter(user=> user._id === sub)).length >= 0 && sub !== channel.creator._id) {
+      throw new ForbiddenException(
+        'User are banned from the channel and not allowed to watch channel posts and comment them',
       );
     }
     return true;

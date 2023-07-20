@@ -10,7 +10,8 @@ export const Theme = ({ children }: any) => {
     <>
       <ThemeProvider theme={currentTheme}>
         <Container
-          maxWidth={'xl'}
+          maxWidth={false}
+          disableGutters
           sx={{
             backgroundColor: 'background.default',
             height: '100vh',

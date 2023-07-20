@@ -13,13 +13,16 @@ import { LOGIN } from '../../mutation/auth';
 import { toast } from 'react-toastify';
 import { SetItemInLocalStorage } from '../services/localStorage';
 import {RegularValidationForEmail, RegularValidationForPassword} from '../../enum/validation';
+import {LocalStorage} from "../../enum/varibles";
+import {useAuth} from "../../hooks/useAuth";
+import {FC} from "react";
 
 interface LogInForm {
   email: string;
   password: string;
 }
 
-const LoginForm = () => {
+const LoginForm:FC = () => {
   const { control, handleSubmit, watch, reset } = useForm<LogInForm>({
     defaultValues: {
       email: '',
@@ -30,6 +33,7 @@ const LoginForm = () => {
   const [LoginUser] = useMutation(LOGIN);
   const email = watch('email');
   const password = watch('password');
+  const {login} = useAuth()
 
   const handleNavigateInSignUp = () => {
     navigator('/signup');
@@ -42,8 +46,9 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<LogInForm> = () => {
     LoginUser({ variables: { email, password } })
       .then((res) => {
-        SetItemInLocalStorage('accessToken', res.data.loginUser.access_token);
+        SetItemInLocalStorage(LocalStorage.accessToken, res.data.loginUser.access_token);
         toast.success('Log in is ready');
+        login();
       })
       .catch(() => {
         toast.error('Error server');

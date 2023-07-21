@@ -12,6 +12,7 @@ import {alpha, styled} from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import {NavLink} from "react-router-dom";
 import './ChatNavMenu.css'
+import ChatCard from "../ChatCard";
 
 const BurgerMenuButtons = [
     'None',
@@ -232,7 +233,7 @@ const ChatNavMenu =()=>{
             transition: theme.transitions.create('width'),
             width: '100%',
             [theme.breakpoints.up('sm')]: {
-                width: '12ch',
+                width: '100%',
             },
         },
     }));
@@ -294,19 +295,20 @@ const ChatNavMenu =()=>{
                     </Toolbar>
                 </AppBar>
             </Box>
-            <Box justifyContent={'center'} className={'custom-box'} sx={{
-                padding: theme.spacing(1, 1),
-                display:"flex",
+            <Box justifyContent={'center'}
+                 className={'custom-box'}
+                 sx={{
                 flexDirection:"column",
-                gap:theme.spacing(1),
+                padding: theme.spacing(1, 1),
             }} >
-                {
-                    options.map((option, index)=>{
-                        return <NavLink key={option+index} to={option+index}>{({ isActive }) => (
-                            <span>{option} {isActive && 'active'}</span>
-                        )}</NavLink>
-                    })
-                }
+
+                    {
+                        options.map((option, index)=>{
+                            return <NavLink key={option+index} to={option+index}>{({ isActive }) => (
+                                <ChatCard key={option+index} tag={option} isActive={isActive} />
+                            )}</NavLink>
+                        })
+                    }
             </Box>
         </>
     )

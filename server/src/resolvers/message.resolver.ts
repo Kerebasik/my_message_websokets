@@ -27,7 +27,7 @@ export class MessageResolver {
     @Args({ name: 'files', type: () => [UploadFileScalar], nullable: true }) files?: FileUpload[],
   ) {
     const payload = this.tokenService.decodeToken(token);
-    return this.messageService.sendMessageToGroup({ ...message, files: files }, payload.sub);
+    return this.messageService.sendMessageToGroup({...message, files: files}, payload.sub);
   }
 
   @Mutation(() => Post)

@@ -27,7 +27,7 @@ export class MessageService {
     createMessageInput: CreateMessageInput,
     sender: string,
   ) {
-    if (createMessageInput.files.length > 0) {
+    if (createMessageInput.files && createMessageInput.files.length > 0) {
       const uploadedFiles = await this.fileService
         .uploadMultipleImages(createMessageInput.files)
         .then((file) => {

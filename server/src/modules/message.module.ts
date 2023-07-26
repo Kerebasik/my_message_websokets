@@ -13,6 +13,8 @@ import { ChannelModule } from './channel.module';
 import { User, UserSchema } from '../schemas/user.schema';
 import { PostService } from '../services/post.service';
 import { PostModule } from './post.module';
+import { UploadFileService } from '../services/file.service';
+import { File, FileSchema } from '../schemas/file.schema';
 
 @Module({
   imports: [
@@ -22,9 +24,19 @@ import { PostModule } from './post.module';
       { name: Group.name, schema: GroupSchema },
       { name: Chat.name, schema: ChatSchema },
       { name: Channel.name, schema: ChannelSchema },
-      { name: User.name, schema: UserSchema }
+      { name: User.name, schema: UserSchema },
+      { name: File.name, schema: FileSchema },
     ]),
   ],
-  providers: [MessageService, MessageResolver, TokenService, ChannelService, ChannelModule, PostService, PostModule],
+  providers: [
+    MessageService,
+    MessageResolver,
+    TokenService,
+    ChannelService,
+    ChannelModule,
+    PostService,
+    PostModule,
+    UploadFileService,
+  ],
 })
 export class MessageModule {}

@@ -23,7 +23,6 @@ export class PostService {
       .lean();
   }
 
-
   async deletePost(id: string) {
     return this.postModel
       .findByIdAndDelete(id)

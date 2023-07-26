@@ -35,7 +35,10 @@ export class AdminGuard {
       ctx.getArgs().input.channel,
     )) as Channel;
 
-    if (sub !== channel.creator._id && (channel.channel_admins.filter(user=> user._id === sub)).length <= 0) {
+    if (
+      sub !== channel.creator._id &&
+      channel.channel_admins.filter((user) => user._id === sub).length <= 0
+    ) {
       throw new ForbiddenException(
         'Only creator or admins of the channel are allowed to make a posts',
       );

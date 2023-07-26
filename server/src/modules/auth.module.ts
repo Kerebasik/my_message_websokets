@@ -26,6 +26,13 @@ import { TokenService } from '../services/token.service';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthResolver, AuthService, UserService, JwtStrategy, TokenService, JwtService],
+  providers: [
+    AuthResolver,
+    AuthService,
+    UserService,
+    JwtStrategy,
+    TokenService,
+    JwtService,
+  ],
 })
 export class AuthModule {}

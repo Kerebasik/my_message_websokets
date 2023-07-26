@@ -13,8 +13,10 @@ import { BanUserFromChannelInput } from '../inputs/ban-user-from-channel.input';
 
 @Resolver(() => Channel)
 export class ChannelResolver {
-  constructor(private readonly channelService: ChannelService,
-              private readonly tokenService: TokenService,) {}
+  constructor(
+    private readonly channelService: ChannelService,
+    private readonly tokenService: TokenService,
+  ) {}
 
   @Mutation(() => Channel)
   @UseGuards(JwtAuthGuard)
@@ -26,16 +28,17 @@ export class ChannelResolver {
 
   @Mutation(() => Channel)
   @UseGuards(AddAdminToChannelGuard)
-  async addUserToAdminPool(
-    @Args('input') channel: AddUserToChannelInput,
-  ) {
+  async addUserToAdminPool(@Args('input') channel: AddUserToChannelInput) {
     return this.channelService.addUserToAdminPool(channel);
   }
 
   @Mutation(() => Channel)
   @UseGuards(JwtAuthGuard)
-  async createChannel(@Args('createChannelInput') channel: CreateChannelInput, @AuthToken() token: string) {
-    const payload = this.tokenService.decodeToken(token)
+  async createChannel(
+    @Args('createChannelInput') channel: CreateChannelInput,
+    @AuthToken() token: string,
+  ) {
+    const payload = this.tokenService.decodeToken(token);
     return this.channelService.createChannel(channel, payload.sub);
   }
 
@@ -45,21 +48,21 @@ export class ChannelResolver {
     return this.channelService.banUserFromChannel(channel);
   }
 
-  @Query(()=> Channel)
+  @Query(() => Channel)
   @UseGuards(JwtAuthGuard)
-  async getChannelById(@Args('id') id: string ) {
-    return this.channelService.getChannelById(id)
+  async getChannelById(@Args('id') id: string) {
+    return this.channelService.getChannelById(id);
   }
 
-  @Query(()=> Channel)
+  @Query(() => Channel)
   @UseGuards(JwtAuthGuard)
-  async getChannelByName(@Args('name') name: string ) {
-    return this.channelService.getChannelByName(name)
+  async getChannelByName(@Args('name') name: string) {
+    return this.channelService.getChannelByName(name);
   }
 
-  @Query(()=> Channel)
+  @Query(() => Channel)
   @UseGuards(JwtAuthGuard)
-  async getAllChannelsByPartialName(@Args('query') query: string ) {
-    return this.channelService.getAllChannelsBySearchQuery(query)
+  async getAllChannelsByPartialName(@Args('query') query: string) {
+    return this.channelService.getAllChannelsBySearchQuery(query);
   }
 }

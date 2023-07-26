@@ -1,4 +1,4 @@
-FROM node:19-alpine As Development
+FROM node:20-slim As Development
 
 ENV NODE_ENV=development
 
@@ -24,9 +24,9 @@ ENV NODE_ENV=${NODE_ENV}
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
+COPY package*.json ./
+COPY pnpm-lock.yaml ./
 COPY yarn.lock ./
-#COPY ../prisma    ./prisma/
 
 COPY --from=development /usr/src/app/dist ./dist
 

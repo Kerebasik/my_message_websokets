@@ -10,34 +10,42 @@ import { UseGuards } from '@nestjs/common';
 import { IsUserBannedGuard } from '../guards/isUserBanned.guard';
 import { AuthToken } from '../decorators/auth.decorator';
 import { TokenService } from '../services/token.service';
+import { FileUpload } from '../interfaces/fileUpload.interface';
+import { UploadFileScalar } from '../scalars/upload.scalar';
 
 @Resolver()
 export class MessageResolver {
-  constructor(private readonly messageService: MessageService,
-              private readonly tokenService: TokenService) {}
+  constructor(
+    private readonly messageService: MessageService,
+    private readonly tokenService: TokenService,
+  ) {}
 
   @Mutation(() => Group)
   async sendMessageToGroup(
-    @Args('createMessageInput') message: CreateMessageInput, @AuthToken() token: string
+    @AuthToken() token: string,
+    @Args('input') message: CreateMessageInput,
+    @Args({ name: 'files', type: () => [UploadFileScalar], nullable: true }) files?: FileUpload[],
   ) {
-    const payload = this.tokenService.decodeToken(token)
-    return this.messageService.sendMessageToGroup(message, payload.sub);
+    const payload = this.tokenService.decodeToken(token);
+    return this.messageService.sendMessageToGroup({ ...message, files: files }, payload.sub);
   }
 
   @Mutation(() => Post)
   @UseGuards(IsUserBannedGuard)
   async sendCommentToPost(
-    @Args('input') message: CreateMessageInput, @AuthToken() token: string
+    @Args('input') message: CreateMessageInput,
+    @AuthToken() token: string,
   ) {
-    const payload = this.tokenService.decodeToken(token)
+    const payload = this.tokenService.decodeToken(token);
     return this.messageService.sendCommentToPost(message, payload.sub);
   }
 
   @Mutation(() => Chat)
   async sendMessageToChat(
-    @Args('createMessageInput') message: CreateMessageInput, @AuthToken() token: string
+    @Args('createMessageInput') message: CreateMessageInput,
+    @AuthToken() token: string,
   ) {
-    const payload = this.tokenService.decodeToken(token)
+    const payload = this.tokenService.decodeToken(token);
     return this.messageService.sendMessageToChat(message, payload.sub);
   }
 

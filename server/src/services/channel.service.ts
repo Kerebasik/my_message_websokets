@@ -14,8 +14,14 @@ export class ChannelService {
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
-  async createChannel(createChannelInput: CreateChannelInput, creator_id: string) {
-    const channel = new this.channelModel({ ...createChannelInput, creator: creator_id });
+  async createChannel(
+    createChannelInput: CreateChannelInput,
+    creator_id: string,
+  ) {
+    const channel = new this.channelModel({
+      ...createChannelInput,
+      creator: creator_id,
+    });
     return (await channel.save()).populate('creator');
   }
 
@@ -51,8 +57,14 @@ export class ChannelService {
   }
 
   async banUserFromChannel(banUserFromChannelInput: BanUserFromChannelInput) {
-    const channel = await this.getChannelById(banUserFromChannelInput.channel_id) as Channel
-    if((channel.subscribers.filter(user=>user._id === banUserFromChannelInput.subscriber_id)).length > 0) {
+    const channel = (await this.getChannelById(
+      banUserFromChannelInput.channel_id,
+    )) as Channel;
+    if (
+      channel.subscribers.filter(
+        (user) => user._id === banUserFromChannelInput.subscriber_id,
+      ).length > 0
+    ) {
       return this.channelModel
         .findByIdAndUpdate(
           banUserFromChannelInput.channel_id,
@@ -65,8 +77,8 @@ export class ChannelService {
         .populate('channel_admins')
         .populate('banned_users')
         .lean();
-    } else  {
-      throw new BadRequestException('Provided user is not a subscriber')
+    } else {
+      throw new BadRequestException('Provided user is not a subscriber');
     }
   }
 
@@ -100,7 +112,7 @@ export class ChannelService {
 
   async getChannelByName(name: string) {
     return this.channelModel
-      .findOne({channel_name: name})
+      .findOne({ channel_name: name })
       .populate('subscribers')
       .populate('posts')
       .populate('channel_admins')
@@ -110,12 +122,11 @@ export class ChannelService {
 
   async getAllChannelsBySearchQuery(query: string) {
     return this.channelModel
-      .find({channel_name: {$regex: query, $options: "i"}})
+      .find({ channel_name: { $regex: query, $options: 'i' } })
       .populate('subscribers')
       .populate('posts')
       .populate('channel_admins')
       .populate('creator')
       .lean();
   }
-
 }

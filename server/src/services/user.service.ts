@@ -37,7 +37,7 @@ export class UserService {
   }
 
   async getUserByPhone(phone: string) {
-    const user = this.userModel.findOne({ phone }).lean();
+    const user = await this.userModel.findOne({ phone }).lean();
     if (!user) {
       throw new NotFoundException(`User doesn't exists`);
     } else {

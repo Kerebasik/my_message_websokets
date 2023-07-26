@@ -18,6 +18,10 @@ import { PostModule } from './modules/post.module';
 import { ChatModule } from './modules/chat.module';
 import { MessageModule } from './modules/message.module';
 import { PassportModule } from '@nestjs/passport';
+import { UploadFileScalar } from './scalars/upload.scalar';
+import * as dotenv from 'dotenv';
+import * as process from 'process';
+dotenv.config();
 
 @Module({
   imports: [
@@ -35,8 +39,12 @@ import { PassportModule } from '@nestjs/passport';
           installSubscriptionHandlers: true,
           sortSchema: true,
           playground: true,
+          csrfPrevention: false,
           debug: configService.get<boolean>('DEBUG'),
-          uploads: false,
+          uploads: {
+            maxFileSize: 10000000, // 10 MB
+            maxFiles: 100,
+          },
         } as GqlModuleOptions;
       },
       inject: [ConfigService],
@@ -57,6 +65,6 @@ import { PassportModule } from '@nestjs/passport';
     MessageModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, UploadFileScalar],
 })
 export class AppModule {}

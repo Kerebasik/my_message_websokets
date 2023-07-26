@@ -95,6 +95,9 @@ input CreateGroupInput {
 }
 
 input CreateMessageInput {
+  """Text of the message"""
+  files: [UploadFileScalar!]
+
   """Receiver of the message"""
   receiver: String!
 
@@ -102,7 +105,7 @@ input CreateMessageInput {
   receiver_model: String
 
   """Text of the message"""
-  text: String!
+  text: String
 }
 
 input CreatePostInput {
@@ -137,6 +140,25 @@ input CreateUserInput {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type File {
+  _id: ID!
+
+  """User creation date """
+  created_at: DateTime!
+
+  """Key of the file """
+  key: String!
+
+  """Group messages"""
+  place: PlaceType!
+
+  """Type of the file """
+  type: String!
+
+  """URL of the file """
+  url: String!
+}
 
 type Group {
   _id: ID!
@@ -176,6 +198,9 @@ type Message {
   """Message creation date """
   created_at: DateTime!
 
+  """Uploaded files of the message"""
+  files: [File!]!
+
   """User receiver"""
   receiver: ReceiverType!
 
@@ -204,9 +229,11 @@ type Mutation {
   removeUserFromGroup(removeUserFromGroup: AddUserToGroupInput!): Group!
   sendCommentToPost(input: CreateMessageInput!): Post!
   sendMessageToChat(createMessageInput: CreateMessageInput!): Chat!
-  sendMessageToGroup(createMessageInput: CreateMessageInput!): Group!
+  sendMessageToGroup(files: [UploadFileScalar!], input: CreateMessageInput!): Group!
   updateMessageById(updateMessageByIdInput: UpdateMessageInput!): Message!
 }
+
+union PlaceType = Channel | Group | Message | Post | User
 
 type Post {
   _id: ID!
@@ -246,6 +273,9 @@ input UpdateMessageInput {
   """Text of the message"""
   text: String!
 }
+
+"""File upload scalar type"""
+scalar UploadFileScalar
 
 type User {
   _id: ID!

@@ -28,7 +28,7 @@ export class AddAdminToChannelGuard {
 
     const token = authorization.replace('Bearer ', '');
 
-    const decoded = this.tokenService.verifyToken(token)
+    const decoded = this.tokenService.verifyToken(token);
     const sub = decoded.sub;
 
     const channel = (await this.channelService.getChannelById(

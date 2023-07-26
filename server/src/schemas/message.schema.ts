@@ -7,6 +7,7 @@ import { Post } from './post.schema';
 import { ReceiverType } from '../unions/receiver.union';
 import { Chat } from './chat.schema';
 import { v4 as uuid4 } from 'uuid';
+import { File } from './file.schema';
 
 @Schema()
 @ObjectType()
@@ -26,9 +27,16 @@ export class Message {
   @Prop({ type: MongooseSchema.Types.String, enum: ['Group', 'Post', 'Chat'] })
   receiver_model: String;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   @Field(() => String, { description: 'Text of the message' })
   text: string;
+
+  @Prop({
+    required: false,
+    type: [{ type: mongoose.Schema.Types.String, ref: 'File' }],
+  })
+  @Field(() => [File], { description: 'Uploaded files of the message' })
+  files: File[];
 
   @Prop({ default: Date.now })
   @Field(() => Date, { description: 'Message creation date ' })

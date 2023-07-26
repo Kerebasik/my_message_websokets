@@ -28,20 +28,24 @@ export class BanUserFromChannelGuard {
 
     const token = authorization.replace('Bearer ', '');
 
-    const decoded = this.tokenService.verifyToken(token)
+    const decoded = this.tokenService.verifyToken(token);
     const sub = decoded.sub;
 
     const channel = (await this.channelService.getChannelById(
       ctx.getArgs().input.channel_id,
     )) as Channel;
 
-
-    console.log(sub)
-    console.log(channel.creator._id)
-    console.log((channel.channel_admins.filter(user=> user._id === sub)).length)
-    if (sub !== channel.creator._id && (channel.channel_admins.filter(user=> user._id === sub)).length <= 0) {
+    console.log(sub);
+    console.log(channel.creator._id);
+    console.log(
+      channel.channel_admins.filter((user) => user._id === sub).length,
+    );
+    if (
+      sub !== channel.creator._id &&
+      channel.channel_admins.filter((user) => user._id === sub).length <= 0
+    ) {
       throw new ForbiddenException(
-        'Only creator or admins of the channel are allowed to ban other users'
+        'Only creator or admins of the channel are allowed to ban other users',
       );
     }
     return true;

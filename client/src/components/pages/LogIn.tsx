@@ -49,6 +49,7 @@ const LoginForm:FC = () => {
         SetItemInLocalStorage(LocalStorage.accessToken, res.data.loginUser.access_token);
         toast.success('Log in is ready');
         login();
+        navigator('/')
       })
       .catch(() => {
         toast.error('Error server');

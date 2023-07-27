@@ -24,10 +24,14 @@ export class MessageResolver {
   async sendMessageToGroup(
     @AuthToken() token: string,
     @Args('input') message: CreateMessageInput,
-    @Args({ name: 'files', type: () => [UploadFileScalar], nullable: true }) files?: FileUpload[],
+    @Args({ name: 'files', type: () => [UploadFileScalar], nullable: true })
+    files?: FileUpload[],
   ) {
     const payload = this.tokenService.decodeToken(token);
-    return this.messageService.sendMessageToGroup({...message, files: files}, payload.sub);
+    return this.messageService.sendMessageToGroup(
+      { ...message, files: files },
+      payload.sub,
+    );
   }
 
   @Mutation(() => Post)

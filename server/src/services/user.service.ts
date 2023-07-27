@@ -16,7 +16,32 @@ export class UserService {
   }
 
   async getUserById(id: string) {
-    const user = this.userModel.findById(id).lean();
+    const user = this.userModel
+      .findById(id)
+      .populate({
+        path: 'chats',
+        populate: {
+          path: 'messages',
+          model: 'Message',
+          populate :{
+            path: 'files',
+            model: 'File',
+          }
+        },
+      })
+      .populate({
+        path: 'groups',
+        populate: {
+          path: 'messages',
+          model: 'Message',
+          populate :{
+            path: 'files',
+            model: 'File',
+          }
+        },
+      })
+      .populate('channels')
+      .lean();
     if (!user) {
       throw new NotFoundException(`User doesn't exists`);
     } else {

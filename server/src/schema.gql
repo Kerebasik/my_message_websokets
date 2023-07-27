@@ -260,7 +260,7 @@ type Query {
   getChannelByName(name: String!): Channel!
   getGroupById(id: String!): Group!
   getUserByEmail(email: String!): User!
-  getUserById(id: String!): User!
+  getUserById: User!
   getUserByPhone(phone: String!): User!
 }
 

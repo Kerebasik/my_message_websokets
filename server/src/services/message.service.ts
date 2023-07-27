@@ -44,12 +44,12 @@ export class MessageService {
         sender: sender,
         receiver_model: 'Group',
       });
-      const message = await msgDoc.save();
+      await msgDoc.save();
       const dbFiles = await Promise.all(
         uploadedFiles.map((file) => {
           let obj = new this.fileModel({
             ...file,
-            place: message._id,
+            place: msgDoc._id,
             place_model: 'Message',
           });
           return obj.save();
@@ -58,7 +58,7 @@ export class MessageService {
 
       return this.messageModel
         .findByIdAndUpdate(
-          message._id,
+          msgDoc._id,
           {
             $push: {
               files: {

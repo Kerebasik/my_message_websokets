@@ -18,6 +18,7 @@ export class AdminGuard {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context);
+    console.log(ctx.getContext().req);
     const { authorization } = ctx.getContext().req.headers;
 
     if (!authorization) {

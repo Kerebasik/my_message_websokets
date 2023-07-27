@@ -2,10 +2,15 @@ import { Resolver, Args, Mutation, Query } from '@nestjs/graphql';
 import { CreateUserInput } from '../inputs/create-user.input';
 import { User } from '../schemas/user.schema';
 import { UserService } from '../services/user.service';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../guards/auth.guard';
+import { AuthToken } from '../decorators/auth.decorator';
+import { TokenService } from '../services/token.service';
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private userService: UserService) {}
+  constructor(private readonly userService: UserService,
+              private readonly tokenService: TokenService) {}
 
   @Mutation(() => User)
   async registerUser(@Args('registerUserInput') user: CreateUserInput) {
@@ -13,8 +18,10 @@ export class UserResolver {
   }
 
   @Query(() => User)
-  async getUserById(@Args('id') id: string) {
-    return this.userService.getUserById(id);
+  @UseGuards(JwtAuthGuard)
+  async getUserById(@AuthToken() token: string,) {
+    const payload = this.tokenService.decodeToken(token);
+    return this.userService.getUserById(payload.sub);
   }
 
   @Query(() => User)

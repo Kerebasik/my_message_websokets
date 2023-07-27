@@ -7,7 +7,6 @@ import { FileUpload } from '../interfaces/fileUpload.interface';
 
 @Injectable()
 export class UploadFileService {
-
   private s3: S3;
   constructor(private configService: ConfigService) {
     this.s3 = new S3();

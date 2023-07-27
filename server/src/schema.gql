@@ -95,8 +95,8 @@ input CreateGroupInput {
 }
 
 input CreateMessageInput {
-  """Text of the message"""
-  files: [UploadFileScalar!]
+  """Files of the message"""
+  files: [String!]
 
   """Receiver of the message"""
   receiver: String!
@@ -229,7 +229,7 @@ type Mutation {
   removeUserFromGroup(removeUserFromGroup: AddUserToGroupInput!): Group!
   sendCommentToPost(input: CreateMessageInput!): Post!
   sendMessageToChat(createMessageInput: CreateMessageInput!): Chat!
-  sendMessageToGroup(files: [UploadFileScalar!], input: CreateMessageInput!): Group!
+  sendMessageToGroup(input: CreateMessageInput!): Group!
   updateMessageById(updateMessageByIdInput: UpdateMessageInput!): Message!
 }
 

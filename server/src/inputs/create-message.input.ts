@@ -1,6 +1,4 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { UploadFileScalar } from '../scalars/upload.scalar';
-import { FileUpload } from '../interfaces/fileUpload.interface';
 
 @InputType()
 export class CreateMessageInput {
@@ -13,9 +11,9 @@ export class CreateMessageInput {
   @Field(() => String, { nullable: true, description: 'Text of the message' })
   text: string;
 
-  @Field(() => [UploadFileScalar], {
+  @Field(() => [String], {
     nullable: true,
-    description: 'Text of the message',
+    description: 'Files of the message',
   })
-  files?: FileUpload[];
+  files: string[];
 }

@@ -10,8 +10,7 @@ import { UseGuards } from '@nestjs/common';
 import { IsUserBannedGuard } from '../guards/isUserBanned.guard';
 import { AuthToken } from '../decorators/auth.decorator';
 import { TokenService } from '../services/token.service';
-import { FileUpload } from '../interfaces/fileUpload.interface';
-import { UploadFileScalar } from '../scalars/upload.scalar';
+import { IsUserGroupMemberGuard } from '../guards/isUserGroupMember.guard';
 
 @Resolver()
 export class MessageResolver {
@@ -21,15 +20,14 @@ export class MessageResolver {
   ) {}
 
   @Mutation(() => Group)
+  @UseGuards(IsUserGroupMemberGuard)
   async sendMessageToGroup(
     @AuthToken() token: string,
     @Args('input') message: CreateMessageInput,
-    @Args({ name: 'files', type: () => [UploadFileScalar], nullable: true })
-    files?: FileUpload[],
   ) {
     const payload = this.tokenService.decodeToken(token);
     return this.messageService.sendMessageToGroup(
-      { ...message, files: files },
+      message,
       payload.sub,
     );
   }

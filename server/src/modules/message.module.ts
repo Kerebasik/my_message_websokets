@@ -13,8 +13,10 @@ import { ChannelModule } from './channel.module';
 import { User, UserSchema } from '../schemas/user.schema';
 import { PostService } from '../services/post.service';
 import { PostModule } from './post.module';
-import { UploadFileService } from '../services/file.service';
+import { UploadFileService } from '../services/uploadFile.service';
 import { File, FileSchema } from '../schemas/file.schema';
+import { GroupModule } from './group.module';
+import { GroupService } from '../services/group.service';
 
 @Module({
   imports: [
@@ -37,6 +39,8 @@ import { File, FileSchema } from '../schemas/file.schema';
     PostService,
     PostModule,
     UploadFileService,
+    GroupModule,
+    GroupService
   ],
 })
 export class MessageModule {}

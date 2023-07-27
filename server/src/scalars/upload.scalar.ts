@@ -12,6 +12,7 @@ export class UploadFileScalar {
     return value;
   }
 
+
   parseLiteral(ast: any): any {
     return ast.value;
   }

@@ -8,8 +8,7 @@ import { CreateMessageInput } from '../inputs/create-message.input';
 import { Chat, ChatDocument } from '../schemas/chat.schema';
 import { UpdateMessageInput } from '../inputs/update-message.input';
 import { File, FileDocument } from '../schemas/file.schema';
-import { UploadFileService } from './file.service';
-import { CustomSendData } from '../interfaces/customSendData.interface';
+import { UploadFileService } from './uploadFile.service';
 
 @Injectable()
 export class MessageService {
@@ -27,62 +26,17 @@ export class MessageService {
     createMessageInput: CreateMessageInput,
     sender: string,
   ) {
-    if (createMessageInput.files && createMessageInput.files.length > 0) {
-      const uploadedFiles = await this.fileService
-        .uploadMultipleImages(createMessageInput.files)
-        .then((file) => {
-          return file.map((obj: CustomSendData) => {
-            return {
-              url: obj.Location,
-              key: obj.Key,
-              type: obj.type,
-            };
-          });
-        });
       const msgDoc = new this.messageModel({
         ...createMessageInput,
         sender: sender,
         receiver_model: 'Group',
       });
       await msgDoc.save();
-      const dbFiles = await Promise.all(
-        uploadedFiles.map((file) => {
-          let obj = new this.fileModel({
-            ...file,
-            place: msgDoc._id,
-            place_model: 'Message',
-          });
-          return obj.save();
-        }),
-      );
 
-      return this.messageModel
-        .findByIdAndUpdate(
-          msgDoc._id,
-          {
-            $push: {
-              files: {
-                $each: dbFiles.map((doc) => {
-                  return doc._id;
-                }),
-              },
-            },
-          },
-          { new: true, useFindAndModify: false },
-        )
-        .populate('files')
-        .lean();
-    } else {
-      const message = new this.messageModel({
-        ...createMessageInput,
-        sender: sender,
-        receiver_model: 'Group',
-      });
-      await message.save();
       return this.groupModel
         .findByIdAndUpdate(
           createMessageInput.receiver,
-          { $push: { messages: message._id } },
+          { $push: { messages: msgDoc._id } },
           { new: true, useFindAndModify: false },
         )
         .populate('members')
@@ -95,7 +49,7 @@ export class MessageService {
         })
         .lean();
     }
-  }
+
 
   async sendCommentToPost(
     createMessageInput: CreateMessageInput,

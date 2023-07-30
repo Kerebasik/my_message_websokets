@@ -68,7 +68,7 @@ export class ChannelService {
       return this.channelModel
         .findByIdAndUpdate(
           banUserFromChannelInput.channel_id,
-          { $push: { banned_users: banUserFromChannelInput.subscriber_id } },
+          { $push: { ban_list: banUserFromChannelInput.subscriber_id } },
           { new: true, useFindAndModify: false },
         )
         .populate('subscribers')

@@ -22,6 +22,7 @@ import { UploadFileScalar } from './scalars/upload.scalar';
 import * as dotenv from 'dotenv';
 import * as process from 'process';
 import { FileModule } from './modules/file.module';
+import { PollModule } from './modules/poll.module';
 dotenv.config();
 
 @Module({
@@ -64,7 +65,8 @@ dotenv.config();
     PostModule,
     ChatModule,
     MessageModule,
-    FileModule
+    FileModule,
+    PollModule
   ],
   controllers: [AppController],
   providers: [AppService, UploadFileScalar],

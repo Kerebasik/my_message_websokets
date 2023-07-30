@@ -4,6 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User } from './user.schema';
 import { Post } from './post.schema';
 import { v4 as uuid4 } from 'uuid';
+import { Poll } from './poll.schema';
 
 @Schema()
 @ObjectType()
@@ -30,7 +31,7 @@ export class Channel {
     type: [{ type: mongoose.Schema.Types.String, ref: 'User' }],
   })
   @Field(() => [User], { description: 'Banned users' })
-  banned_users: User[];
+  ban_list: User[];
 
   @Prop({ required: false })
   @Field(() => String, { nullable: true, description: 'Channel description ' })
@@ -47,6 +48,12 @@ export class Channel {
   })
   @Field(() => [Post], { description: 'Channel posts' })
   posts: Post[];
+
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.String, ref: 'Poll' }],
+  })
+  @Field(() => [Poll], { description: 'Channel polls' })
+  polls: Poll[];
 
   @Prop({ default: Date.now })
   @Field(() => Date, { description: 'Channel creation date ' })

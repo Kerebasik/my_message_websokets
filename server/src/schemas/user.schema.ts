@@ -67,6 +67,7 @@ export class User {
     type: [{ type: mongoose.Schema.Types.String, ref: 'Message' }],
   })
   messages: Message[];
+
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

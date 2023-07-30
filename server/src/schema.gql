@@ -30,7 +30,7 @@ type Channel {
   _id: ID!
 
   """Banned users"""
-  banned_users: [User!]!
+  ban_list: [User!]!
 
   """Channel admins"""
   channel_admins: [User!]!
@@ -46,6 +46,9 @@ type Channel {
 
   """Channel description """
   description: String
+
+  """Channel polls"""
+  polls: [Poll!]!
 
   """Channel posts"""
   posts: [Post!]!
@@ -103,6 +106,23 @@ input CreateMessageInput {
 
   """Receiver type"""
   receiver_model: String
+
+  """Text of the message"""
+  text: String
+}
+
+input CreatePollInput {
+  """Text of the message"""
+  options: [String!]
+
+  """Question of the pool"""
+  question: String!
+
+  """Group or channel, where pool will be placed"""
+  receiver: String!
+
+  """Type of the receiver, group or channel"""
+  receiver_type: String!
 
   """Text of the message"""
   text: String
@@ -177,6 +197,9 @@ type Group {
 
   """Group messages"""
   messages: [Message!]!
+
+  """Group polls"""
+  polls: [Poll!]!
 }
 
 type LoggedUserOutput {
@@ -222,18 +245,61 @@ type Mutation {
   createChannel(createChannelInput: CreateChannelInput!): Channel!
   createChat(createChatInput: CreateChatInput!): Chat!
   createGroup(createGroupInput: CreateGroupInput!): Group!
+  createPoll(input: CreatePollInput!): Group!
   createPost(input: CreatePostInput!): Post!
   deleteMessageById(id: String!): Message!
   loginUser(loginUserInput: LoginUserInput!): LoggedUserOutput!
   registerUser(registerUserInput: CreateUserInput!): User!
   removeUserFromGroup(removeUserFromGroup: AddUserToGroupInput!): Group!
+  removeVoteFromPoll(id: String!): PollOption!
   sendCommentToPost(input: CreateMessageInput!): Post!
   sendMessageToChat(createMessageInput: CreateMessageInput!): Chat!
   sendMessageToGroup(input: CreateMessageInput!): Group!
   updateMessageById(updateMessageByIdInput: UpdateMessageInput!): Message!
+  votePoll(id: String!): PollOption!
 }
 
 union PlaceType = Channel | Group | Message | Post | User
+
+type Poll {
+  _id: ID!
+
+  """Message creation date """
+  created_at: DateTime!
+
+  """Poll options"""
+  options: [PollOption!]!
+
+  """Question of the poll"""
+  question: String!
+
+  """Poll receiver"""
+  receiver: PollReceiverType!
+
+  """Message update date """
+  updated_at: DateTime!
+}
+
+type PollOption {
+  _id: ID!
+
+  """Message creation date """
+  created_at: DateTime!
+
+  """User sender"""
+  poll: Poll!
+
+  """Question of the poll"""
+  text: String!
+
+  """Message update date """
+  updated_at: DateTime!
+
+  """Option votes"""
+  votes: [User!]!
+}
+
+union PollReceiverType = Channel | Group
 
 type Post {
   _id: ID!

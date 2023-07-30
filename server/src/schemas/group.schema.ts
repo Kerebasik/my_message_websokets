@@ -4,6 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User } from './user.schema';
 import { Message } from './message.schema';
 import { v4 as uuid4 } from 'uuid';
+import { Poll } from './poll.schema';
 
 @Schema()
 @ObjectType()
@@ -31,6 +32,12 @@ export class Group {
   })
   @Field(() => [Message], { description: 'Group messages' })
   messages: Message[];
+
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.String, ref: 'Poll' }],
+  })
+  @Field(() => [Poll], { description: 'Group polls' })
+  polls: Poll[];
 
   @Prop({ default: Date.now })
   @Field(() => Date, { description: 'User creation date ' })

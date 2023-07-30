@@ -4,7 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { User } from './user.schema';
 import { Group } from './group.schema';
 import { Post } from './post.schema';
-import { ReceiverType } from '../unions/receiver.union';
+import { ReceiverType } from '../unions/messageReceiverType.union';
 import { Chat } from './chat.schema';
 import { v4 as uuid4 } from 'uuid';
 import { File } from './file.schema';

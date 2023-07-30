@@ -46,8 +46,8 @@ export class IsUserBannedGuard {
       throw new ForbiddenException('You are not a subscriber of the channel');
     }
     if (
-      channel.banned_users.filter((user) => user._id === sub).length >= 0 &&
-      sub !== channel.creator._id
+      channel.ban_list.filter((user) => user._id === sub).length >= 0 &&
+      (sub !== channel.creator._id && channel.channel_admins.filter((user) => user._id === sub).length <= 0)
     ) {
       throw new ForbiddenException(
         'User are banned from the channel and not allowed to watch channel posts and comment them',

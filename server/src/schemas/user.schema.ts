@@ -30,14 +30,14 @@ export class User {
   @Field(() => String, { description: 'User biography ' })
   bio: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, type: mongoose.Schema.Types.String })
   @Field(() => String, { description: 'User email ' })
   email: string;
 
   @Prop({ required: true })
   password: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, type: mongoose.Schema.Types.String })
   @Field(() => String, { description: 'User phone ' })
   phone: string;
 

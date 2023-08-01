@@ -17,6 +17,7 @@ import { UploadFileService } from '../services/uploadFile.service';
 import { File, FileSchema } from '../schemas/file.schema';
 import { GroupModule } from './group.module';
 import { GroupService } from '../services/group.service';
+import { MessageGateway } from '../gateways/message.gateway';
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import { GroupService } from '../services/group.service';
     PostModule,
     UploadFileService,
     GroupModule,
-    GroupService
+    GroupService,
+    MessageGateway
   ],
 })
 export class MessageModule {}

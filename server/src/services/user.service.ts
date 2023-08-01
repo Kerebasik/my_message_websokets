@@ -11,7 +11,7 @@ export class UserService {
 
   async registerUser(createUserInput: CreateUserInput) {
     createUserInput.password = await bcrypt.hash(createUserInput.password, 10);
-    const user = new this.userModel(createUserInput);
+    const user = new this.userModel({ ...createUserInput, username: `@${createUserInput.firstName}_${createUserInput.lastName}` });
     return user.save();
   }
 

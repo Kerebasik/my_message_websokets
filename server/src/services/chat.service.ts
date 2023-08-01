@@ -8,22 +8,32 @@ import { CreateChatInput } from '../inputs/create-chat.input';
 @Injectable()
 export class ChatService {
   constructor(
-    @InjectModel(Chat.name) private groupModel: Model<ChatDocument>,
+    @InjectModel(Chat.name) private chatModel: Model<ChatDocument>,
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
   async createPrivateChat(createChatInput: CreateChatInput) {
-    const chat = new this.groupModel(createChatInput);
+    const chat = new this.chatModel(createChatInput);
+    const doc = chat.save()
     await this.userModel.findByIdAndUpdate(
       createChatInput.first_companion,
-      { $push: { chats: chat._id } },
+      { $addToSet: { chats: chat._id } },
       { new: true, useFindAndModify: false },
     );
     await this.userModel.findByIdAndUpdate(
       createChatInput.second_companion,
-      { $push: { chats: chat._id } },
+      { $addToSet: { chats: chat._id } },
       { new: true, useFindAndModify: false },
     );
-    return chat.save();
+    return doc;
   }
+  async getChatById(id: string) {
+    return this.chatModel
+      .findById(id)
+      .populate('first_companion')
+      .populate('second_companion')
+      .populate('messages')
+      .lean();
+  }
+
 }

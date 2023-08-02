@@ -16,6 +16,7 @@ import {RegularValidationForEmail, RegularValidationForPassword} from '../../enu
 import {LocalStorage} from "../../enum/varibles";
 import {useAuth} from "../../hooks/useAuth";
 import {FC} from "react";
+import {LOGINREQUESTDELAY} from "../../enum/delay";
 
 interface LogInForm {
   email: string;
@@ -47,7 +48,7 @@ const LoginForm:FC = () => {
     LoginUser({ variables: { email, password } })
       .then((res) => {
         setItemInLocalStorage(LocalStorage.accessToken, res.data.loginUser.access_token);
-        toast.success('Log in is ready');
+        toast.success('Log in is ready',{autoClose:LOGINREQUESTDELAY});
         login();
         navigator('/')
       })

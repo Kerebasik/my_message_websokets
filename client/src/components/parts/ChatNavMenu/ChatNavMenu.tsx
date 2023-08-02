@@ -10,12 +10,12 @@ import {alpha, styled} from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import {NavLink} from "react-router-dom";
 import './ChatNavMenu.css'
-import ChatCard from "../../pages/ChatCard";
+import ChatCard from "../ChatCard";
 import {useLazyQuery} from "@apollo/client";
 import UserQuery from "../../../guery/User";
-import Loader from "../../../assets/loading";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
-
+import PreLoader from "../PreLoader/PreLoader";
+import {SEARCHREQUESTDELAY} from "../../../enum/delay";
 
 const options:Array<DataState> = [
     {
@@ -113,7 +113,7 @@ const ChatNavMenu:FC =()=>{
                             },
                         ])
                 })
-        },3000)
+        }, SEARCHREQUESTDELAY)
 
         return ()=>clearTimeout(timer)
 
@@ -210,12 +210,13 @@ const ChatNavMenu:FC =()=>{
                 loading
                     ?
                     <>
-                        <Loader/>
+                        <PreLoader/>
                     </>
                     :
                     <Box justifyContent={'center'}
                          className={'custom-box'}
                          sx={{
+                             position:'relative',
                              flexDirection:"column",
                              padding: theme.spacing(1, 1),
                          }} >
@@ -226,6 +227,8 @@ const ChatNavMenu:FC =()=>{
                                     <ChatCard key={item.id+index} tag={item} isActive={isActive} />
                                 )}</NavLink>
                             })
+
+
                         }
                     </Box>
             }

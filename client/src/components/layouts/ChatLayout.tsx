@@ -1,6 +1,8 @@
 import {Container, Box} from "@mui/material";
 import {Outlet} from "react-router-dom";
 import ChatNavMenu from "../parts/ChatNavMenu/ChatNavMenu";
+import CreatePanelButton from "../parts/CreatePanelButton/CreatePanelButton";
+
 
 const ChatLayout = () => {
 
@@ -23,9 +25,11 @@ const ChatLayout = () => {
                 backgroundColor:'divider',
                 display:"flex",
                 flexDirection:"column",
+                position:'relative'
             }}
           >
               <ChatNavMenu/>
+              <CreatePanelButton/>
           </Box>
           <Box sx={{
               flex:'1 1 75%',

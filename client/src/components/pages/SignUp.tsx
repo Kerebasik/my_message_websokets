@@ -18,6 +18,7 @@ import {
 } from '../../enum/validation';
 import 'react-phone-input-2/lib/material.css';
 import InputPhone from '../parts/PhoneInput/phoneInput';
+import { SIGNUPREQUESTDELAY} from "../../enum/delay";
 
 interface SignUpForm {
   email: string;
@@ -48,10 +49,10 @@ const SignUp = () => {
   const handleOnSubmit: SubmitHandler<SignUpForm> = () => {
     RegisterUser({ variables: { email, firstName, lastName, password, phone } })
       .then(() => {
-        toast.success('User was created');
+        toast.success('User was created',{autoClose:SIGNUPREQUESTDELAY});
         setTimeout(() => {
           navigator('/login');
-        }, 2000);
+        }, SIGNUPREQUESTDELAY);
       })
       .catch(() => {
         toast.error('Server error');

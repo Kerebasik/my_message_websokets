@@ -8,7 +8,7 @@ import LogIn from '../components/pages/LogIn';
 import { ResetPassword } from '../components/pages/ResetPassword';
 import { Verified } from '../components/pages/Verified';
 import ChatLayout from "../components/layouts/ChatLayout";
-import ChatOutlet from "../components/pages/ChatOutlet";
+import ChatOutlet from "../components/parts/ChatOutlet";
 import PrivateRoute from "../hoc/PrivateRoute";
 const router = createBrowserRouter(
   createRoutesFromElements(

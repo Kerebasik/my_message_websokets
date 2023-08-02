@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import {useTheme} from "@mui/material";
-import {DataState} from "../parts/ChatNavMenu/ChatNavMenu";
+import {DataState} from "./ChatNavMenu/ChatNavMenu";
 
 interface ChatCardProps {
     tag:DataState,

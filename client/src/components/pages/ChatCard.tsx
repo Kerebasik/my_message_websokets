@@ -3,9 +3,10 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import {useTheme} from "@mui/material";
+import {DataState} from "../parts/ChatNavMenu/ChatNavMenu";
 
 interface ChatCardProps {
-    tag:string,
+    tag:DataState,
     isActive?:boolean
 }
 
@@ -22,7 +23,7 @@ const ChatCard:FC<ChatCardProps> = ({tag, isActive})=>{
             }}>
                 <CardContent>
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                        {tag}
+                        {tag.name}
                     </Typography>
                 </CardContent>
             </Card>

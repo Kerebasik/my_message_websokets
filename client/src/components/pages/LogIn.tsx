@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN } from '../../mutation/auth';
 import { toast } from 'react-toastify';
-import { SetItemInLocalStorage } from '../services/localStorage';
+import { setItemInLocalStorage } from '../../services/localStorage';
 import {RegularValidationForEmail, RegularValidationForPassword} from '../../enum/validation';
 import {LocalStorage} from "../../enum/varibles";
 import {useAuth} from "../../hooks/useAuth";
@@ -46,7 +46,7 @@ const LoginForm:FC = () => {
   const onSubmit: SubmitHandler<LogInForm> = () => {
     LoginUser({ variables: { email, password } })
       .then((res) => {
-        SetItemInLocalStorage(LocalStorage.accessToken, res.data.loginUser.access_token);
+        setItemInLocalStorage(LocalStorage.accessToken, res.data.loginUser.access_token);
         toast.success('Log in is ready');
         login();
         navigator('/')

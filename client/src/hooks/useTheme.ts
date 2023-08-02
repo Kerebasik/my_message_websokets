@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { createTheme, Theme } from '@mui/material';
 import {
-  GetItemInLocalStorage,
-  SetItemInLocalStorage,
-} from '../components/services/localStorage';
+  getItemFromLocalStorage,
+    setItemInLocalStorage
+} from '../services/localStorage';
 
 export const lightTheme = createTheme({
   palette: {
@@ -18,7 +18,7 @@ export const darkTheme = createTheme({
 });
 
 const CheckThemeInLocalStorage = (): Theme => {
-  if (GetItemInLocalStorage('theme') === 'dark') {
+  if (getItemFromLocalStorage('theme') === 'dark') {
     return darkTheme;
   }
   return lightTheme;
@@ -31,7 +31,7 @@ export function useTheme() {
     setCurrentTheme((prevTheme) =>
       prevTheme === lightTheme ? darkTheme : lightTheme
     );
-    SetItemInLocalStorage(
+    setItemInLocalStorage(
       'theme',
       currentTheme === lightTheme ? 'dark' : 'light'
     );

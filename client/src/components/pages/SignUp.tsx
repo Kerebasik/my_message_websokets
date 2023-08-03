@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
+import {FetchResult, useMutation} from '@apollo/client';
 import { REGISTRATION } from '../../mutation/auth';
 import { toast } from 'react-toastify';
 import {
@@ -19,6 +19,7 @@ import {
 import 'react-phone-input-2/lib/material.css';
 import InputPhone from '../parts/PhoneInput/phoneInput';
 import { SIGNUPREQUESTDELAY} from "../../enum/delay";
+import {User} from "../../types/graphql";
 
 interface SignUpForm {
   email: string;
@@ -48,7 +49,8 @@ const SignUp = () => {
 
   const handleOnSubmit: SubmitHandler<SignUpForm> = () => {
     RegisterUser({ variables: { email, firstName, lastName, password, phone } })
-      .then(() => {
+      .then((res:FetchResult<User>) => {
+          console.log('res', res.data)
         toast.success('User was created',{autoClose:SIGNUPREQUESTDELAY});
         setTimeout(() => {
           navigator('/login');

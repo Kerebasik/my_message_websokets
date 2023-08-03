@@ -401,7 +401,7 @@ export type User = {
     __typename?: Scalars["String"]
     _id: Scalars["ID"]
     /** User biography  */
-    bio: Scalars["String"]
+    bio?: Scalars["String"]
     /** User channels */
     channels: Array<Channel>
     /** User chats */
@@ -419,5 +419,5 @@ export type User = {
     /** User phone  */
     phone: Scalars["String"]
     /** User nickname  */
-    username: Scalars["String"]
+    username?: Scalars["String"]
 }

@@ -5,7 +5,6 @@ import { User } from './user.schema';
 import { Message } from './message.schema';
 import { v4 as uuid4 } from 'uuid';
 import { Poll } from './poll.schema';
-import { GroupType } from '../enums/groupType.enum';
 
 @Schema()
 @ObjectType()
@@ -18,8 +17,8 @@ export class Group {
   @Field(() => String, { description: 'Group name ' })
   group_name: string;
 
-  @Prop({ type: mongoose.Schema.Types.String, default: 'private', enum: ['private, public'] })
-  @Field(() => GroupType, { description: 'Group private type' })
+  @Prop({ type: mongoose.Schema.Types.String, default: 'private', enum: ['private', 'public'] })
+  @Field(() => String, { description: 'Group private type' })
   group_type: string;
 
   @Prop({ required: false })

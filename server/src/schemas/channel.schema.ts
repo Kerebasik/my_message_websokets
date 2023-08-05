@@ -5,7 +5,6 @@ import { User } from './user.schema';
 import { Post } from './post.schema';
 import { v4 as uuid4 } from 'uuid';
 import { Poll } from './poll.schema';
-import { GroupType } from '../enums/groupType.enum';
 
 @Schema()
 @ObjectType()
@@ -22,8 +21,8 @@ export class Channel {
   @Field(() => String, { description: 'Channel name ' })
   channel_name: string;
 
-  @Prop({ type: mongoose.Schema.Types.String, default: 'private', enum: ['private, public'] })
-  @Field(() => GroupType, { description: 'Channel private type' })
+  @Prop({ type: mongoose.Schema.Types.String, default: 'private', enum: ['private', 'public'] })
+  @Field(() => String, { description: 'Channel private type' })
   channel_type: string;
 
   @Prop({

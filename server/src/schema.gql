@@ -38,6 +38,9 @@ type Channel {
   """Channel name """
   channel_name: String!
 
+  """Channel private type"""
+  channel_type: String!
+
   """Channel creation date """
   created_at: DateTime!
 
@@ -192,6 +195,9 @@ type Group {
   """Group name """
   group_name: String!
 
+  """Group private type"""
+  group_type: String!
+
   """Group members"""
   members: [User!]!
 
@@ -324,6 +330,7 @@ type Query {
   getAllChannelsByPartialName(query: String!): Channel!
   getChannelById(id: String!): Channel!
   getChannelByName(name: String!): Channel!
+  getChatById(id: String!): Chat!
   getGroupById(id: String!): Group!
   getUserByEmail(email: String!): User!
   getUserById: User!

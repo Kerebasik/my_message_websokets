@@ -10,16 +10,17 @@ import { Verified } from '../components/pages/Verified';
 import ChatLayout from "../components/layouts/ChatLayout";
 import ChatOutlet from "../components/parts/ChatOutlet";
 import PrivateRoute from "../hoc/PrivateRoute";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-        <Route path='/' element={<ChatLayout/>}>
-            <Route path={':id'} element={
-                <PrivateRoute>
-                    <ChatOutlet/>
-                </PrivateRoute>
-            }
-            />
+        <Route path='/' element={
+            <PrivateRoute>
+                <ChatLayout/>
+            </PrivateRoute>
+        }>
+            <Route path={':id'} element={<ChatOutlet/>} />
+            <Route path={'/createChannel'} element={<>CreateChannel</>}/>
         </Route>
       <Route path='/reset-password' element={<ResetPassword />} />
       <Route path='/signup' element={<SignUp />} />

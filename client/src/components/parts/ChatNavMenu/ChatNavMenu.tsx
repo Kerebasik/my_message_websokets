@@ -4,197 +4,125 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import {useState} from "react";
+import {ChangeEvent, FC, useEffect, useRef, useState} from "react";
 import {MouseEvent} from "react";
 import {alpha, styled} from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import {NavLink} from "react-router-dom";
 import './ChatNavMenu.css'
 import ChatCard from "../ChatCard";
+import {useLazyQuery} from "@apollo/client";
+import UserQuery from "../../../guery/User";
+import BurgerMenu from "../BurgerMenu/BurgerMenu";
+import PreLoader from "../PreLoader/PreLoader";
+import {SEARCHREQUESTDELAY} from "../../../enum/delay";
 
-const BurgerMenuButtons = [
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-]
-
-
-const options = [
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
+const options:Array<DataState> = [
+    {
+        id:"1",
+        name:"None"
+    },
+    {
+        id:"2",
+        name:"Atria"
+    },
+    {
+        id:"3",
+        name:"Callisto"
+    },
+    {
+        id:"4",
+        name:"Dione"
+    },
+    {
+        id:"5",
+        name:"Ganymede"
+    },
+    {
+        id:"6",
+        name:"Hangouts Call"
+    },
+    {
+        id:"7",
+        name:"Luna"
+    },
+    {
+        id:"8",
+        name:"None"
+    },
+    {
+        id:"9",
+        name:"Atria"
+    },
+    {
+        id:"10",
+        name:"Callisto"
+    },
+    {
+        id:"11",
+        name:"Dione"
+    },
+    {
+        id:"12",
+        name:"Ganymede"
+    },
 ];
 
-const ITEM_HEIGHT = 76;
 
 
-const ChatNavMenu =()=>{
+export type DataState = {
+        id:string,
+        name:string,
+    }
+
+const ChatNavMenu:FC =()=>{
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
+    const open:boolean = !!anchorEl;
+    const [GetUserByPhone,{loading}] = useLazyQuery(UserQuery.GET_USER_SEARCH)
+    const [search, setSearch] = useState<string>('')
+    const searchRef = useRef<HTMLInputElement>()
+    const [data, setData] = useState<Array<DataState>>(options)
+
+    const theme = useTheme()
+
+    const handleSearchOnChange = (e:ChangeEvent<HTMLInputElement>)=>{
+        setSearch(e.target.value)
+    }
+
+    useEffect(()=>{
+        searchRef.current?.focus()
+        if(search===''){
+            return setData(options)
+        }
+        const timer = setTimeout(()=>{
+            GetUserByPhone({variables:{search}})
+                .then((data)=>{
+                    console.log(data.data)
+                    return setData(
+                        [{
+                            id:"1",
+                            name:"test1"
+                        },
+                            {
+                                id:"2",
+                                name:"test2"
+                            },
+                            {
+                                id:"3",
+                                name:"test3"
+                            },
+                        ])
+                })
+        }, SEARCHREQUESTDELAY)
+
+        return ()=>clearTimeout(timer)
+
+    },[search])
+
     const handleClick = (event: MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -237,7 +165,6 @@ const ChatNavMenu =()=>{
             },
         },
     }));
-    const theme = useTheme()
 
     return(
         <>
@@ -258,27 +185,7 @@ const ChatNavMenu =()=>{
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Menu
-                            id="long-menu"
-                            MenuListProps={{
-                                'aria-labelledby': 'long-button',
-                            }}
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            PaperProps={{
-                                style: {
-                                    maxHeight: ITEM_HEIGHT * 4.5,
-                                    width: '40ch',
-                                },
-                            }}
-                        >
-                            {BurgerMenuButtons.map((option) => (
-                                <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-                                    {option}
-                                </MenuItem>
-                            ))}
-                        </Menu>
+                        <BurgerMenu anchorEl={anchorEl} open={open} handleClose={handleClose} />
                         <Search
                             sx={{
                                 flexGrow:'1'
@@ -288,28 +195,43 @@ const ChatNavMenu =()=>{
                                 <SearchIcon />
                             </SearchIconWrapper>
                             <StyledInputBase
+                                id={'search-nav-menu'}
                                 placeholder="Search…"
                                 inputProps={{ 'aria-label': 'search' }}
+                                onChange={handleSearchOnChange}
+                                value={search}
+                                inputRef={searchRef}
                             />
                         </Search>
                     </Toolbar>
                 </AppBar>
             </Box>
-            <Box justifyContent={'center'}
-                 className={'custom-box'}
-                 sx={{
-                flexDirection:"column",
-                padding: theme.spacing(1, 1),
-            }} >
+            {
+                loading
+                    ?
+                    <>
+                        <PreLoader/>
+                    </>
+                    :
+                    <Box justifyContent={'center'}
+                         className={'custom-box'}
+                         sx={{
+                             position:'relative',
+                             flexDirection:"column",
+                             padding: theme.spacing(1, 1),
+                         }} >
 
-                    {
-                        options.map((option, index)=>{
-                            return <NavLink key={option+index} to={option+index}>{({ isActive }) => (
-                                <ChatCard key={option+index} tag={option} isActive={isActive} />
-                            )}</NavLink>
-                        })
-                    }
-            </Box>
+                        {
+                            data?.map((item, index)=>{
+                                return <NavLink key={item.id+index} to={item.name+index}>{({ isActive }) => (
+                                    <ChatCard key={item.id+index} tag={item} isActive={isActive} />
+                                )}</NavLink>
+                            })
+
+
+                        }
+                    </Box>
+            }
         </>
     )
 }

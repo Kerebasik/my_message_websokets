@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import {DeleteItemInLocalStorage, GetItemInLocalStorage} from "../components/services/localStorage";
+import {deleteItemFromLocalStorage, getItemFromLocalStorage} from "../services/localStorage";
 import {LocalStorage} from "../enum/varibles";
 
 export type TAuthContextInitial = {
@@ -18,7 +18,7 @@ export const AuthContext = createContext<TAuthContextInitial>(initialContext);
 
 export const AuthProvider = ({ children }: any) => {
     const [auth, setAuth] = useState<boolean>(
-        !!GetItemInLocalStorage(LocalStorage.accessToken)
+        !!getItemFromLocalStorage(LocalStorage.accessToken)
     );
 
     const login = () => {
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: any) => {
 
     const logout = () => {
         setAuth(false);
-        DeleteItemInLocalStorage(LocalStorage.accessToken)
+        deleteItemFromLocalStorage(LocalStorage.accessToken)
     };
 
     const value: TAuthContextInitial = { auth, login, logout };

@@ -11,9 +11,10 @@ const PrivateRoute:FC<PropsWithChildren> = ({children})=>{
         return (
             <>{children}</>
         )
-    } else {
-        return(<Navigate to={'/login'}/>)
     }
+
+    return(<Navigate to={'/login'}/>)
+
 }
 
 export default PrivateRoute

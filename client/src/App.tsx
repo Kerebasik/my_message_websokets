@@ -6,8 +6,8 @@ import ToastProvider from './hoc/ToastifyProvider';
 import {AuthProvider} from "./hoc/AuthProvider";
 import {useQuery} from "@apollo/client";
 import UserQuery from './guery/User'
-import {deleteItemFromLocalStorage} from "./services/localStorage";
-import {LocalStorage} from "./enum/varibles";
+import {StorageServiceInstance } from './services/storageService';
+import {LocalStorage} from "./constants/varibles";
 
 function App() {
     const {data, error} = useQuery(UserQuery.GET_USER_BY_ACCESS_TOKEN)
@@ -20,7 +20,7 @@ function App() {
 
     useEffect(()=>{
         if(!!error){
-            deleteItemFromLocalStorage(LocalStorage.accessToken)
+            StorageServiceInstance.deleteItem(LocalStorage.accessToken)
         }
     },[error])
 

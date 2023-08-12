@@ -1,6 +1,8 @@
-import { createContext, useState } from 'react';
-import {deleteItemFromLocalStorage, getItemFromLocalStorage} from "../services/localStorage";
-import {LocalStorage} from "../enum/varibles";
+import {createContext, FC, ReactNode, useState} from 'react';
+import {
+    StorageServiceInstance,
+} from '../services/storageService';
+import {LocalStorage} from "../constants/varibles";
 
 export type TAuthContextInitial = {
     auth: boolean;
@@ -16,9 +18,13 @@ const initialContext: TAuthContextInitial = {
 
 export const AuthContext = createContext<TAuthContextInitial>(initialContext);
 
-export const AuthProvider = ({ children }: any) => {
+type AuthProviderProps = {
+    children:ReactNode
+}
+
+export const AuthProvider:FC<AuthProviderProps> = ({ children }) => {
     const [auth, setAuth] = useState<boolean>(
-        !!getItemFromLocalStorage(LocalStorage.accessToken)
+        !!StorageServiceInstance.getItem(LocalStorage.accessToken)
     );
 
     const login = () => {
@@ -27,7 +33,7 @@ export const AuthProvider = ({ children }: any) => {
 
     const logout = () => {
         setAuth(false);
-        deleteItemFromLocalStorage(LocalStorage.accessToken)
+        StorageServiceInstance.deleteItem(LocalStorage.accessToken)
     };
 
     const value: TAuthContextInitial = { auth, login, logout };

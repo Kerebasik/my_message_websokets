@@ -11,12 +11,12 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN } from '../../mutation/auth';
 import { toast } from 'react-toastify';
-import { setItemInLocalStorage } from '../../services/localStorage';
-import {RegularValidationForEmail, RegularValidationForPassword} from '../../enum/validation';
-import {LocalStorage} from "../../enum/varibles";
+import { StorageServiceInstance } from '../../services/storageService';
+import {RegularValidationForEmail, RegularValidationForPassword} from '../../constants/validation';
+import {LocalStorage} from "../../constants/varibles";
 import {useAuth} from "../../hooks/useAuth";
 import {FC} from "react";
-import {LOGINREQUESTDELAY} from "../../enum/delay";
+import {LOGINREQUESTDELAY} from "../../constants/delay";
 
 interface LogInForm {
   email: string;
@@ -47,7 +47,7 @@ const LoginForm:FC = () => {
   const onSubmit: SubmitHandler<LogInForm> = () => {
     LoginUser({ variables: { email, password } })
       .then((res) => {
-        setItemInLocalStorage(LocalStorage.accessToken, res.data.loginUser.access_token);
+        StorageServiceInstance.setItem(LocalStorage.accessToken, res.data.loginUser.access_token);
         toast.success('Log in is ready',{autoClose:LOGINREQUESTDELAY});
         login();
         navigator('/')

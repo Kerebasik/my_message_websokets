@@ -15,10 +15,10 @@ import {
     RegularValidationForEmail, RegularValidationForFirstName,
     RegularValidationForLastName,
     RegularValidationForPassword
-} from '../../enum/validation';
+} from '../../constants/validation';
 import 'react-phone-input-2/lib/material.css';
 import InputPhone from '../parts/PhoneInput/phoneInput';
-import { SIGNUPREQUESTDELAY} from "../../enum/delay";
+import { SIGNUPREQUESTDELAY} from "../../constants/delay";
 import {User} from "../../types/graphql";
 
 interface SignUpForm {

@@ -1,7 +1,7 @@
 import {FC} from "react";
 import {MenuItem, Typography, Menu} from "@mui/material";
-import {deleteItemFromLocalStorage} from "../../../services/localStorage";
-import {LocalStorage} from "../../../enum/varibles";
+import { StorageServiceInstance } from '../../../services/storageService';
+import {LocalStorage} from "../../../constants/varibles";
 import {useNavigate} from "react-router-dom";
 
 const ITEM_HEIGHT = 76;
@@ -19,7 +19,7 @@ const BurgerMenu:FC<BurgerMenuProps> = ({anchorEl, open, handleClose})=>{
     const handleLogOutOnClick = () =>{
         new Promise((resolve, reject)=>{
             try {
-                deleteItemFromLocalStorage(LocalStorage.accessToken)
+                StorageServiceInstance.deleteItem(LocalStorage.accessToken)
                 resolve('')
             } catch (e) {
                 reject(e)

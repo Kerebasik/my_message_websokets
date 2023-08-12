@@ -15,7 +15,7 @@ import {useLazyQuery} from "@apollo/client";
 import UserQuery from "../../../guery/User";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import PreLoader from "../PreLoader/PreLoader";
-import {SEARCHREQUESTDELAY} from "../../../enum/delay";
+import {SEARCHREQUESTDELAY} from "../../../constants/delay";
 
 const options:Array<DataState> = [
     {

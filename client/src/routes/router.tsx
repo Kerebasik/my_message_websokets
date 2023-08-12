@@ -10,22 +10,24 @@ import { Verified } from '../components/pages/Verified';
 import ChatLayout from "../components/layouts/ChatLayout";
 import ChatOutlet from "../components/parts/ChatOutlet";
 import PrivateRoute from "../hoc/PrivateRoute";
+import {PrivateRoutes, PublicRoutes} from "../constants/routes";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-        <Route path='/' element={
+        <Route path={PrivateRoutes.ROOT} element={
             <PrivateRoute>
                 <ChatLayout/>
             </PrivateRoute>
         }>
-            <Route path={':id'} element={<ChatOutlet/>} />
-            <Route path={'/createChannel'} element={<>CreateChannel</>}/>
+            <Route path={PrivateRoutes.CHAT_OUTLET} element={<ChatOutlet/>} />
+            <Route path={PrivateRoutes.CREATE_CHANNEL} element={<>CreateChannel</>}/>
         </Route>
-      <Route path='/reset-password' element={<ResetPassword />} />
-      <Route path='/signup' element={<SignUp />} />
-      <Route path='/login' element={<LogIn />} />
-      <Route path='/verified' element={<Verified />} />
+        <Route path={PublicRoutes.RESET_PASSWORD} element={<ResetPassword />} />
+        <Route path={PublicRoutes.SIGNUP} element={<SignUp />} />
+        <Route path={PublicRoutes.LOGIN} element={<LogIn />} />
+        <Route path={PublicRoutes.VERIFIED} element={<Verified />} />
+        <Route path={PublicRoutes.NOT_FOUND} element={<div>404</div>}/>
     </>
   )
 );

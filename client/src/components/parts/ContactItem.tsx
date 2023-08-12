@@ -1,6 +1,6 @@
 
 
-interface ContactItemProps{
+type ContactItemProps = {
 
 }
 

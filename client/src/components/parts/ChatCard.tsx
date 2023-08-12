@@ -1,11 +1,10 @@
-import {FC} from "react";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import {useTheme} from "@mui/material";
 import {DataState} from "./ChatNavMenu/ChatNavMenu";
 
-interface ChatCardProps {
+type ChatCardProps = {
     tag:DataState,
     isActive?:boolean
 }
@@ -13,7 +12,7 @@ interface ChatCardProps {
 
 
 
-const ChatCard:FC<ChatCardProps> = ({tag, isActive})=>{
+const ChatCard = ({tag, isActive}:ChatCardProps)=>{
     const theme = useTheme()
     return(
         <>

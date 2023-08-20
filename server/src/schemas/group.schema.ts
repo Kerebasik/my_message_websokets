@@ -5,6 +5,7 @@ import { User } from './user.schema';
 import { Message } from './message.schema';
 import { v4 as uuid4 } from 'uuid';
 import { Poll } from './poll.schema';
+import { File } from './file.schema';
 
 @Schema()
 @ObjectType()
@@ -13,15 +14,30 @@ export class Group {
   @Field(() => ID)
   _id: string;
 
+  @Prop({ type: mongoose.Schema.Types.String, ref: 'User' })
+  @Field(() => User, { description: 'Creator of the group ' })
+  creator: User;
+
+  @Prop({
+    type: mongoose.Schema.Types.String,
+    ref: 'File',
+  })
+  @Field(() => File, { description: 'Avatar of the group' })
+  avatar: File;
+
   @Prop({ required: true })
   @Field(() => String, { description: 'Group name ' })
   group_name: string;
 
-  @Prop({ type: mongoose.Schema.Types.String, default: 'private', enum: ['private', 'public'] })
+  @Prop({
+    type: mongoose.Schema.Types.String,
+    default: 'private',
+    enum: ['private', 'public'],
+  })
   @Field(() => String, { description: 'Group private type' })
   group_type: string;
 
-  @Prop({ required: false })
+  @Prop()
   @Field(() => String, { nullable: true, description: 'User description ' })
   description?: string;
 

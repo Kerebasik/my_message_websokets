@@ -9,8 +9,10 @@ import { TokenService } from '../services/token.service';
 
 @Resolver(() => User)
 export class UserResolver {
-  constructor(private readonly userService: UserService,
-              private readonly tokenService: TokenService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly tokenService: TokenService,
+  ) {}
 
   @Mutation(() => User)
   async registerUser(@Args('registerUserInput') user: CreateUserInput) {
@@ -19,7 +21,7 @@ export class UserResolver {
 
   @Query(() => User)
   @UseGuards(JwtAuthGuard)
-  async getUserById(@AuthToken() token: string,) {
+  async getUserById(@AuthToken() token: string) {
     const payload = this.tokenService.decodeToken(token);
     return this.userService.getUserById(payload.sub);
   }

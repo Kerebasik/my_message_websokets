@@ -27,16 +27,23 @@ export class Message {
   @Prop({ type: MongooseSchema.Types.String, enum: ['Group', 'Post', 'Chat'] })
   receiver_model: String;
 
-  @Prop({ required: false })
+  @Prop()
   @Field(() => String, { description: 'Text of the message' })
   text: string;
 
   @Prop({
-    required: false,
     type: [{ type: mongoose.Schema.Types.String, ref: 'File' }],
   })
   @Field(() => [File], { description: 'Uploaded files of the message' })
-  files: File[];
+  files?: File[];
+
+  @Prop({
+    type: { type: mongoose.Schema.Types.Boolean },
+  })
+  @Field(() => Boolean, {
+    description: 'Flag thet indicates is pinned message or not',
+  })
+  is_pinned: Boolean;
 
   @Prop({ default: Date.now })
   @Field(() => Date, { description: 'Message creation date ' })

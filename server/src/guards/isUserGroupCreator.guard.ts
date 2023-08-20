@@ -10,7 +10,7 @@ import { GroupService } from '../services/group.service';
 import { Group } from '../schemas/group.schema';
 
 @Injectable()
-export class IsUserGroupMemberGuard {
+export class IsUserGroupCreatorGuard {
   constructor(
     private readonly tokenService: TokenService,
     private readonly groupService: GroupService,
@@ -30,11 +30,13 @@ export class IsUserGroupMemberGuard {
     const sub = decoded.sub;
 
     const group = (await this.groupService.getGroupById(
-      ctx.getArgs().input.receiver,
+      ctx.getArgs().id,
     )) as Group;
 
-    if (group.members.filter((user) => user._id === sub).length <= 0) {
-      throw new ForbiddenException('You are not a member of the group');
+    if (group.creator !== sub) {
+      throw new ForbiddenException(
+        'Only creator of the group is allowed to perform this action.',
+      );
     }
 
     return true;

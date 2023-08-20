@@ -26,10 +26,7 @@ export class MessageResolver {
     @Args('input') message: CreateMessageInput,
   ) {
     const payload = this.tokenService.decodeToken(token);
-    return this.messageService.sendMessageToGroup(
-      message,
-      payload.sub,
-    );
+    return this.messageService.sendMessageToGroup(message, payload.sub);
   }
 
   @Mutation(() => Post)

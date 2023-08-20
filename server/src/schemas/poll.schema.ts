@@ -28,11 +28,13 @@ export class Poll {
   question: string;
 
   @Prop({
-    required: false,
     type: [{ type: mongoose.Schema.Types.String, ref: 'PollOption' }],
-    validate: [arrayLimit, 'The poll should have at least 2 options and no more than 10 options']
+    validate: [
+      arrayLimit,
+      'The poll should have at least 2 options and no more than 10 options',
+    ],
   })
-  @Field(() => [PollOption], { description: 'Poll options' }, )
+  @Field(() => [PollOption], { description: 'Poll options' })
   options: PollOption[];
 
   @Prop({ default: Date.now })
@@ -50,15 +52,15 @@ export class Poll {
   }
 }
 
-
-
 export const PollSchema = SchemaFactory.createForClass(Poll);
 export type PollDocument = Poll & mongoose.Document;
 
 PollSchema.pre('save', function (next) {
   const poll = this as Poll;
   if (poll.options.length < 2 || poll.options.length > 10) {
-    const error = new BadRequestException('The poll should have at least 2 options and no more 10 options');
+    const error = new BadRequestException(
+      'The poll should have at least 2 options and no more 10 options',
+    );
     return next(error);
   }
   next();

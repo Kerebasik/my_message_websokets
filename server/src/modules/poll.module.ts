@@ -17,8 +17,6 @@ import { TokenService } from '../services/token.service';
       { name: Channel.name, schema: ChannelSchema },
     ]),
   ],
-  providers: [
-    PollService, PollResolver, TokenService
-  ],
+  providers: [PollService, PollResolver, TokenService],
 })
 export class PollModule {}

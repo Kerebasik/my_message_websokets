@@ -13,8 +13,8 @@ export class GroupService {
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
-  async createGroup(createGroupInput: CreateGroupInput) {
-    const group = new this.groupModel(createGroupInput);
+  async createGroup(createGroupInput: CreateGroupInput, sub: string) {
+    const group = new this.groupModel({ ...createGroupInput, creator: sub });
     return group.save();
   }
 
@@ -57,5 +57,16 @@ export class GroupService {
     } else {
       return group;
     }
+  }
+
+  async changeGroupPrivateType(id: string, type: string) {
+    return this.groupModel
+      .findByIdAndUpdate(
+        id,
+        { $set: { group_type: type } },
+        { new: true, useFindAndModify: false },
+      )
+      .populate('members')
+      .lean();
   }
 }

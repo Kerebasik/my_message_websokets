@@ -5,6 +5,7 @@ import { User } from './user.schema';
 import { Post } from './post.schema';
 import { v4 as uuid4 } from 'uuid';
 import { Poll } from './poll.schema';
+import { File } from './file.schema';
 
 @Schema()
 @ObjectType()
@@ -17,11 +18,21 @@ export class Channel {
   @Field(() => User, { description: 'Creator of the channel ' })
   creator: User;
 
+  @Prop({
+    type: { type: mongoose.Schema.Types.String, ref: 'File' },
+  })
+  @Field(() => File, { description: 'Avatar of the channel' })
+  avatar: File;
+
   @Prop({ required: true })
   @Field(() => String, { description: 'Channel name ' })
   channel_name: string;
 
-  @Prop({ type: mongoose.Schema.Types.String, default: 'private', enum: ['private', 'public'] })
+  @Prop({
+    type: mongoose.Schema.Types.String,
+    // default: 'private',
+    enum: ['private', 'public'],
+  })
   @Field(() => String, { description: 'Channel private type' })
   channel_type: string;
 

@@ -23,6 +23,7 @@ import * as dotenv from 'dotenv';
 import * as process from 'process';
 import { FileModule } from './modules/file.module';
 import { PollModule } from './modules/poll.module';
+import { SearchModule } from './modules/search.module';
 dotenv.config();
 
 @Module({
@@ -66,7 +67,8 @@ dotenv.config();
     ChatModule,
     MessageModule,
     FileModule,
-    PollModule
+    PollModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [AppService, UploadFileScalar],

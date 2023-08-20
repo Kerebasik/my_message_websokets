@@ -42,7 +42,7 @@ import { MessageGateway } from '../gateways/message.gateway';
     UploadFileService,
     GroupModule,
     GroupService,
-    MessageGateway
+    MessageGateway,
   ],
 })
 export class MessageModule {}

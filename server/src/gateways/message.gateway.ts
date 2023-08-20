@@ -47,8 +47,13 @@ export class MessageGateway
     @ConnectedSocket() socket: Socket,
   ) {
     try {
-      const payload = this.tokenService.decodeToken(socket.handshake.headers.authorization);
-      const message = await this.messageService.sendMessageToChat(input, payload.sub)
+      const payload = this.tokenService.decodeToken(
+        socket.handshake.headers.authorization,
+      );
+      const message = await this.messageService.sendMessageToChat(
+        input,
+        payload.sub,
+      );
       socket.emit('sendMessageToChat', message);
     } catch (error) {
       socket.emit('sendMessageToChat', { error: error.message });

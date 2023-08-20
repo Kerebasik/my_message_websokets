@@ -11,7 +11,10 @@ export class UserService {
 
   async registerUser(createUserInput: CreateUserInput) {
     createUserInput.password = await bcrypt.hash(createUserInput.password, 10);
-    const user = new this.userModel({ ...createUserInput, username: `@${createUserInput.firstName}_${createUserInput.lastName}` });
+    const user = new this.userModel({
+      ...createUserInput,
+      username: `@${createUserInput.firstName}_${createUserInput.lastName}`,
+    });
     return user.save();
   }
 
@@ -23,10 +26,10 @@ export class UserService {
         populate: {
           path: 'messages',
           model: 'Message',
-          populate :{
+          populate: {
             path: 'files',
             model: 'File',
-          }
+          },
         },
       })
       .populate({
@@ -34,10 +37,10 @@ export class UserService {
         populate: {
           path: 'messages',
           model: 'Message',
-          populate :{
+          populate: {
             path: 'files',
             model: 'File',
-          }
+          },
         },
       })
       .populate('channels')

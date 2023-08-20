@@ -20,8 +20,11 @@ export class PollOption {
   @Field(() => String, { description: 'Question of the poll' })
   text: string;
 
-  @Prop({default: [], type: [{ type: mongoose.Schema.Types.String, ref: 'User' }]})
-  @Field(() => [User], { description: 'Option votes' }, )
+  @Prop({
+    default: [],
+    type: [{ type: mongoose.Schema.Types.String, ref: 'User' }],
+  })
+  @Field(() => [User], { description: 'Option votes' })
   votes: User[];
 
   @Prop({ default: Date.now })

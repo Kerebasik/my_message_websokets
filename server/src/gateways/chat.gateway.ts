@@ -17,9 +17,7 @@ import { JwtAuthGuard } from '../guards/auth.guard';
 export class ChatGateway
   implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit
 {
-  constructor(
-    private readonly chatService: ChatService,
-  ) {}
+  constructor(private readonly chatService: ChatService) {}
 
   private logger: Logger = new Logger('MessageGateway');
   @WebSocketServer() wss: Server;
@@ -37,7 +35,6 @@ export class ChatGateway
     this.logger.log(`Client Disconnected: ${client.id}`);
   }
 
-
   @UseGuards(JwtAuthGuard)
   @SubscribeMessage('receiveMessageToChat')
   async handleReceiveMessageToChat(
@@ -45,7 +42,7 @@ export class ChatGateway
     @ConnectedSocket() socket: Socket,
   ) {
     try {
-      const data = await this.chatService.getChatById(id)
+      const data = await this.chatService.getChatById(id);
       socket.emit('receiveMessageToChat', data);
     } catch (error) {
       socket.emit('receiveMessageToChat', { error: error.message });

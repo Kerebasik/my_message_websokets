@@ -15,9 +15,9 @@ services:
       - database
       - mongo-express
     ports:
-      - '3000:3000'
-    volumes:
-      - ./server:/app
+      - '5000:3000'
+#    volumes:
+#      - ./server:/app
     restart: always
     command: yarn run start:dev
 
@@ -33,8 +33,8 @@ services:
     volumes:
       - ./db_data:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: 'root'
+      MONGO_INITDB_ROOT_PASSWORD: 'root'
 
   mongo-express:
       container_name: mongo-express
@@ -46,9 +46,10 @@ services:
         - appnet
       env_file: 'server/.env'
       environment:
-        ME_CONFIG_MONGODB_ADMINUSERNAME: ${ME_CONFIG_MONGODB_ADMINUSERNAME}
-        ME_CONFIG_MONGODB_ADMINPASSWORD: ${ME_CONFIG_MONGODB_ADMINPASSWORD}
-        ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL}
+        ME_CONFIG_MONGODB_ADMINUSERNAME: 'admin'
+        ME_CONFIG_MONGODB_ADMINPASSWORD: 'admin'
+        ME_CONFIG_MONGODB_URL: 'mongodb://root:root@database:27017/'
+
 
 
 

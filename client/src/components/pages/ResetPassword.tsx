@@ -7,8 +7,9 @@ import {
   Typography,
 } from '@mui/material';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { EmailValidation } from '../../constants/validation';
 
 interface ResetPasswordFrom {
   email: string;
@@ -33,11 +34,11 @@ export const ResetPassword = () => {
     navigate('/login');
   };
 
-  useEffect(() => {
-    return () => {
-      reset();
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     reset();
+  //   };
+  // }, []);
 
   return (
     <>
@@ -84,16 +85,7 @@ export const ResetPassword = () => {
             <Controller
               name='email'
               control={control}
-              rules={{
-                required: {
-                  value: true,
-                  message: 'Email is required',
-                },
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: 'Email is not valid',
-                },
-              }}
+              rules={EmailValidation}
               render={({ field, fieldState }) => (
                 <TextField
                   fullWidth

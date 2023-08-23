@@ -8,18 +8,20 @@ import {
 } from '@mui/material';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import {FetchResult, useMutation} from '@apollo/client';
-import { REGISTRATION } from '../../mutation/auth';
+import { useMutation } from '@apollo/client';
+import { REGISTRATION } from '../../graphql/mutation/auth';
 import { toast } from 'react-toastify';
 import {
-    RegularValidationForEmail, RegularValidationForFirstName,
-    RegularValidationForLastName,
-    RegularValidationForPassword
+  EmailValidation,
+  FirstNameValidation,
+  LastNameValidation,
+  PasswordValidation,
+  PhoneValidation,
 } from '../../constants/validation';
 import 'react-phone-input-2/lib/material.css';
 import InputPhone from '../parts/PhoneInput/phoneInput';
-import { SIGNUPREQUESTDELAY} from "../../constants/delay";
-import {User} from "../../types/graphql";
+import { SIGNUPREQUESTDELAY } from '../../constants/delay';
+import { PublicRoutes } from '../../constants/routes';
 
 interface SignUpForm {
   email: string;
@@ -49,11 +51,10 @@ const SignUp = () => {
 
   const handleOnSubmit: SubmitHandler<SignUpForm> = () => {
     RegisterUser({ variables: { email, firstName, lastName, password, phone } })
-      .then((res:FetchResult<User>) => {
-          console.log('res', res.data)
-        toast.success('User was created',{autoClose:SIGNUPREQUESTDELAY});
+      .then(() => {
+        toast.success('User was created', { autoClose: SIGNUPREQUESTDELAY });
         setTimeout(() => {
-          navigator('/login');
+          navigator(PublicRoutes.LOGIN);
         }, SIGNUPREQUESTDELAY);
       })
       .catch(() => {
@@ -110,13 +111,7 @@ const SignUp = () => {
           <Controller
             control={control}
             name={'firstName'}
-            rules={{
-              required: { value: true, message: 'First Name is required' },
-              pattern: {
-                value: RegularValidationForFirstName,
-                message: 'First Name is not valid',
-              },
-            }}
+            rules={FirstNameValidation}
             render={({ field, fieldState }) => (
               <TextField
                 error={!!fieldState.error}
@@ -134,13 +129,7 @@ const SignUp = () => {
           <Controller
             control={control}
             name={'lastName'}
-            rules={{
-              required: { value: true, message: 'Last Name is required' },
-              pattern: {
-                value: RegularValidationForLastName,
-                message: 'Last Name is not valid',
-              },
-            }}
+            rules={LastNameValidation}
             render={({ field, fieldState }) => (
               <TextField
                 error={!!fieldState.error}
@@ -158,15 +147,14 @@ const SignUp = () => {
           <Controller
             name='phone'
             control={control}
-            rules={{
-              required: {
-                value: true,
-                message: 'Phone is required',
-              },
-            }}
+            rules={PhoneValidation}
             render={({ field: { onChange, value }, fieldState }) => (
               <>
-                <InputPhone value={value} onChange={onChange} error={!!fieldState.error?.message} />
+                <InputPhone
+                  value={value}
+                  onChange={onChange}
+                  error={!!fieldState.error?.message}
+                />
               </>
             )}
           />
@@ -174,16 +162,7 @@ const SignUp = () => {
           <Controller
             name='email'
             control={control}
-            rules={{
-              required: {
-                value: true,
-                message: 'Email is required',
-              },
-              pattern: {
-                value: RegularValidationForEmail,
-                message: 'Email is not valid',
-              },
-            }}
+            rules={EmailValidation}
             render={({ field, fieldState }) => (
               <TextField
                 error={!!fieldState.error}
@@ -201,15 +180,7 @@ const SignUp = () => {
           <Controller
             control={control}
             name={'password'}
-            rules={{
-              required: { value: true, message: 'Password is required' },
-              minLength: { value: 6, message: 'Min length is 6 charters' },
-              maxLength: { value: 20, message: 'Max length is 20 charters' },
-              pattern: {
-                value: RegularValidationForPassword,
-                message: 'Password is not valid',
-              },
-            }}
+            rules={PasswordValidation}
             render={({ field, fieldState }) => (
               <TextField
                 error={!!fieldState.error}

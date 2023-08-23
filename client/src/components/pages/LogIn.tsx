@@ -9,21 +9,24 @@ import {
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import { LOGIN } from '../../mutation/auth';
+import { LOGIN } from '../../graphql/mutation/auth';
 import { toast } from 'react-toastify';
 import { StorageServiceInstance } from '../../services/storageService';
-import {RegularValidationForEmail, RegularValidationForPassword} from '../../constants/validation';
-import {LocalStorage} from "../../constants/varibles";
-import {useAuth} from "../../hooks/useAuth";
-import {FC} from "react";
-import {LOGINREQUESTDELAY} from "../../constants/delay";
+import {
+  EmailValidation,
+  PasswordValidation,
+} from '../../constants/validation';
+import { LocalStorage } from '../../constants/varibles';
+import { useAuth } from '../../hooks/useAuth';
+import { FC } from 'react';
+import { LOGINREQUESTDELAY } from '../../constants/delay';
 
-interface LogInForm {
+type LogInForm = {
   email: string;
   password: string;
-}
+};
 
-const LoginForm:FC = () => {
+const LoginForm: FC = () => {
   const { control, handleSubmit, watch, reset } = useForm<LogInForm>({
     defaultValues: {
       email: '',
@@ -34,7 +37,7 @@ const LoginForm:FC = () => {
   const [LoginUser] = useMutation(LOGIN);
   const email = watch('email');
   const password = watch('password');
-  const {login} = useAuth()
+  const { login } = useAuth();
 
   const handleNavigateInSignUp = () => {
     navigator('/signup');
@@ -47,10 +50,13 @@ const LoginForm:FC = () => {
   const onSubmit: SubmitHandler<LogInForm> = () => {
     LoginUser({ variables: { email, password } })
       .then((res) => {
-        StorageServiceInstance.setItem(LocalStorage.accessToken, res.data.loginUser.access_token);
-        toast.success('Log in is ready',{autoClose:LOGINREQUESTDELAY});
+        StorageServiceInstance.setItem(
+          LocalStorage.accessToken,
+          res.data.loginUser.access_token
+        );
+        toast.success('Log in is ready', { autoClose: LOGINREQUESTDELAY });
         login();
-        navigator('/')
+        navigator('/');
       })
       .catch(() => {
         toast.error('Error server');
@@ -99,16 +105,7 @@ const LoginForm:FC = () => {
           <Controller
             name='email'
             control={control}
-            rules={{
-              required: {
-                value: true,
-                message: 'Email is required',
-              },
-              pattern: {
-                value:RegularValidationForEmail,
-                message: 'Email is not valid',
-              },
-            }}
+            rules={EmailValidation}
             render={({ field, fieldState }) => (
               <TextField
                 error={!!fieldState.error}
@@ -126,15 +123,7 @@ const LoginForm:FC = () => {
           <Controller
             control={control}
             name={'password'}
-            rules={{
-              required: { value: true, message: 'Password is required' },
-              minLength: { value: 6, message: 'Min length is 6 charters' },
-              maxLength: { value: 20, message: 'Max length is 20 charters' },
-              pattern: {
-                value: RegularValidationForPassword,
-                message: 'Password is not valid',
-              },
-            }}
+            rules={PasswordValidation}
             render={({ field, fieldState }) => (
               <TextField
                 error={!!fieldState.error}

@@ -1,13 +1,5 @@
+type ContactItemProps = {};
 
-
-type ContactItemProps = {
-
-}
-
-const ContactItem = ()=>{
-    return(
-        <>
-
-        </>
-    )
-}
+const ContactItem = () => {
+  return <></>;
+};

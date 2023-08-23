@@ -2,9 +2,9 @@ import { Container, IconButton, ThemeProvider } from '@mui/material';
 import { lightTheme, useTheme } from '../hooks/useTheme';
 import MoonIcon from '@mui/icons-material/Brightness4';
 import LightIcon from '@mui/icons-material/Brightness5Rounded';
-import React, {FC, PropsWithChildren} from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 
-export const CustomTheme:FC<PropsWithChildren> = ({ children }) => {
+export const CustomTheme: FC<PropsWithChildren> = ({ children }) => {
   const { currentTheme, handleThemeChange } = useTheme();
 
   return (

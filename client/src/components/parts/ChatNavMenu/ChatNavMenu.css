@@ -1,18 +1,18 @@
-.custom-box{
-    overflow: hidden;
+.custom-box {
+  overflow: hidden;
 }
 
 .custom-box:hover {
-    /* Установите желаемые стили для скролл-бара */
-    overflow: auto; /* Разрешает появление скролл-баров при необходимости */
-    scrollbar-width: thin; /* Тонкие скролл-бары */
-    scrollbar-color: #888 #f0f0f0; /* Цвет скролл-бара (в этом случае, шестнадцатеричный цвет для скролл-бара и его фона) */
+  /* Установите желаемые стили для скролл-бара */
+  overflow: auto; /* Разрешает появление скролл-баров при необходимости */
+  scrollbar-width: thin; /* Тонкие скролл-бары */
+  scrollbar-color: #888 #f0f0f0; /* Цвет скролл-бара (в этом случае, шестнадцатеричный цвет для скролл-бара и его фона) */
 }
 
 .custom-box:hover::-webkit-scrollbar {
-    width: 5px; /* Ширина скролл-бара для WebKit-браузеров (Safari, Chrome и др.) */
+  width: 5px; /* Ширина скролл-бара для WebKit-браузеров (Safari, Chrome и др.) */
 }
 
 .custom-box::-webkit-scrollbar-thumb {
-    background-color: #888; /* Цвет ползунка скролл-бара */
+  background-color: #888; /* Цвет ползунка скролл-бара */
 }

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { createTheme, Theme } from '@mui/material';
-import {
-  StorageServiceInstance,
-} from '../services/storageService';
+import { StorageServiceInstance } from '../services/storageService';
 
 export const lightTheme = createTheme({
   palette: {

@@ -7,26 +7,28 @@ import { ChangeEvent } from 'react';
 interface InputPhoneProps {
   value?: string;
   onChange?: (event: string | ChangeEvent<Element>) => void;
-  error?:boolean
+  error?: boolean;
 }
 
-const InputPhone: FC<InputPhoneProps> = ({ value, onChange ,error}) => {
+const InputPhone: FC<InputPhoneProps> = ({ value, onChange, error }) => {
   const theme = useTheme();
 
   return (
     <>
       <PhoneInput
-          isValid={!error}
-          inputStyle={{
-            borderColor:error ? theme.palette.error.main : theme.palette.action.disabled,
-            color: theme.palette.text.primary,
+        isValid={!error}
+        inputStyle={{
+          borderColor: error
+            ? theme.palette.error.main
+            : theme.palette.action.disabled,
+          color: theme.palette.text.primary,
         }}
-          dropdownStyle={{
-            color: theme.palette.text.primary,
-            backgroundColor: theme.palette.background.default,
+        dropdownStyle={{
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.background.default,
         }}
-          value={value}
-          onChange={onChange}
+        value={value}
+        onChange={onChange}
       />
     </>
   );

@@ -1,17 +1,17 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import userReducer from './reducers/userSlice'
-import chatsReducer from './reducers/chatsSlice'
+import userReducer from './reducers/userSlice';
+import chatsReducer from './reducers/chatsSlice';
 
 const rootReducer = combineReducers({
-    userReducer,
-    chatsReducer
+  userReducer,
+  chatsReducer,
 });
 
 export const setupStore = () => {
-    return configureStore({
-        reducer: rootReducer,
-        devTools: true,
-    });
+  return configureStore({
+    reducer: rootReducer,
+    devTools: true,
+  });
 };
 
 export type RootState = ReturnType<typeof rootReducer>;

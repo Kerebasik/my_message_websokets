@@ -29,6 +29,9 @@ input BanUserFromChannelInput {
 type Channel {
   _id: ID!
 
+  """Avatar of the channel"""
+  avatar: File!
+
   """Banned users"""
   ban_list: [User!]!
 
@@ -186,8 +189,14 @@ type File {
 type Group {
   _id: ID!
 
+  """Avatar of the group"""
+  avatar: File!
+
   """User creation date """
   created_at: DateTime!
+
+  """Creator of the group """
+  creator: User!
 
   """User description """
   description: String
@@ -230,6 +239,9 @@ type Message {
   """Uploaded files of the message"""
   files: [File!]!
 
+  """Flag thet indicates is pinned message or not"""
+  is_pinned: Boolean!
+
   """User receiver"""
   receiver: ReceiverType!
 
@@ -248,6 +260,7 @@ type Mutation {
   addUserToChannel(addUserToChannelInput: AddUserToChannelInput!): Channel!
   addUserToGroup(addUserToGroupInput: AddUserToGroupInput!): Group!
   banUserFromChannel(input: BanUserFromChannelInput!): Channel!
+  changeGroupPrivateType(id: String!, type: String!): Group!
   createChannel(createChannelInput: CreateChannelInput!): Channel!
   createChat(createChatInput: CreateChatInput!): Chat!
   createGroup(createGroupInput: CreateGroupInput!): Group!
@@ -327,6 +340,7 @@ type Post {
 }
 
 type Query {
+  findAllBySearchQuery(query: String!): [SearchResultsOutput!]!
   getAllChannelsByPartialName(query: String!): Channel!
   getChannelById(id: String!): Channel!
   getChannelByName(name: String!): Channel!
@@ -338,6 +352,10 @@ type Query {
 }
 
 union ReceiverType = Chat | Group | Post
+
+type SearchResultsOutput {
+  _id: String!
+}
 
 input UpdateMessageInput {
   """Id of the message"""
@@ -352,6 +370,9 @@ scalar UploadFileScalar
 
 type User {
   _id: ID!
+
+  """Uploaded files of the message"""
+  avatar: File!
 
   """User biography """
   bio: String!

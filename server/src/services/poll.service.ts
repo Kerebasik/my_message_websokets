@@ -11,18 +11,27 @@ import { Channel, ChannelDocument } from '../schemas/channel.schema';
 export class PollService {
   constructor(
     @InjectModel(Poll.name) private readonly pollModel: Model<PollDocument>,
-    @InjectModel(PollOption.name) private readonly optionModel: Model<PollOptionDocument>,
+    @InjectModel(PollOption.name)
+    private readonly optionModel: Model<PollOptionDocument>,
     @InjectModel(Group.name) private readonly groupModel: Model<GroupDocument>,
-    @InjectModel(Channel.name) private readonly channelModel: Model<ChannelDocument>,
+    @InjectModel(Channel.name)
+    private readonly channelModel: Model<ChannelDocument>,
   ) {}
 
-  async createPoll(input: CreatePollInput){
-    let {options, ...rest} = input;
-    const optionDocs =  await Promise.all(options.map(option=>{
-      let pollOption = new this.optionModel({text: option})
-      return pollOption.save()
-    }))
-    const poll = new this.pollModel({...rest, options: optionDocs.map(doc=> {return doc._id})});
+  async createPoll(input: CreatePollInput) {
+    let { options, ...rest } = input;
+    const optionDocs = await Promise.all(
+      options.map((option) => {
+        let pollOption = new this.optionModel({ text: option });
+        return pollOption.save();
+      }),
+    );
+    const poll = new this.pollModel({
+      ...rest,
+      options: optionDocs.map((doc) => {
+        return doc._id;
+      }),
+    });
     await poll.save();
 
     switch (input.receiver_type) {
@@ -41,7 +50,10 @@ export class PollService {
               model: 'File',
             },
           })
-          .populate({path: 'polls', populate: {path: 'options', model: 'PollOption'}})
+          .populate({
+            path: 'polls',
+            populate: { path: 'options', model: 'PollOption' },
+          })
           .lean();
       case 'Channel':
         return this.channelModel
@@ -52,32 +64,43 @@ export class PollService {
           )
           .populate('subscribers')
           .populate('posts')
-          .populate({path: 'polls', populate: {path: 'options', model: 'PollOption'}})
+          .populate({
+            path: 'polls',
+            populate: { path: 'options', model: 'PollOption' },
+          })
           .lean();
       default:
-        throw new BadRequestException('Invalid receiver type has been provide. Either Group or Channel are allowed')
+        throw new BadRequestException(
+          'Invalid receiver type has been provide. Either Group or Channel are allowed',
+        );
     }
-
   }
-
 
   async voteInPoll(poll_id: string, user_id: string) {
     try {
-      return await this.optionModel.findByIdAndUpdate(
-        poll_id,
-        {$addToSet : {votes: user_id}},
-        { new: true, useFindAndModify: false }
-      ).populate('votes').populate('poll').lean()
+      return await this.optionModel
+        .findByIdAndUpdate(
+          poll_id,
+          { $addToSet: { votes: user_id } },
+          { new: true, useFindAndModify: false },
+        )
+        .populate('votes')
+        .populate('poll')
+        .lean();
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
   async removeVoteFromPoll(poll_id: string, user_id: string) {
-    return this.optionModel.findByIdAndUpdate(
-      poll_id,
-      {$pull : {votes: user_id}},
-      { new: true, useFindAndModify: false }
-    ).populate('votes').populate('poll').lean()
+    return this.optionModel
+      .findByIdAndUpdate(
+        poll_id,
+        { $pull: { votes: user_id } },
+        { new: true, useFindAndModify: false },
+      )
+      .populate('votes')
+      .populate('poll')
+      .lean();
   }
 }

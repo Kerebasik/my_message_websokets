@@ -1,18 +1,19 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Group, GroupSchema } from '../schemas/group.schema';
-import { GroupService } from '../services/group.service';
-import { GroupResolver } from '../resolvers/group.resolver';
+import { Channel, ChannelSchema } from '../schemas/channel.schema';
 import { User, UserSchema } from '../schemas/user.schema';
-import { TokenService } from '../services/token.service';
+import { SearchService } from '../services/search.service';
+import { SearchResolver } from '../resolvers/search.resolver';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Group.name, schema: GroupSchema },
       { name: User.name, schema: UserSchema },
+      { name: Channel.name, schema: ChannelSchema },
     ]),
   ],
-  providers: [GroupService, GroupResolver, TokenService],
+  providers: [SearchService, SearchResolver],
 })
-export class GroupModule {}
+export class SearchModule {}

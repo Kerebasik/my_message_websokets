@@ -30,7 +30,7 @@ export class File {
   @Field(() => String, { description: 'URL of the file ' })
   url: string;
 
-  @Prop({ required: false })
+  @Prop()
   @Field(() => String, { description: 'Key of the file ' })
   key: string;
 

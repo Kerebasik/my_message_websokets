@@ -1,4 +1,3 @@
-
 import { Injectable } from '@nestjs/common';
 import { UploadFileService } from './uploadFile.service';
 import { CustomSendData } from '../interfaces/customSendData.interface';
@@ -8,9 +7,10 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class FileService {
-  constructor(private readonly uploadFileService: UploadFileService,
-              @InjectModel(File.name) private fileModel: Model<FileDocument>) {
-  }
+  constructor(
+    private readonly uploadFileService: UploadFileService,
+    @InjectModel(File.name) private fileModel: Model<FileDocument>,
+  ) {}
 
   async uploadFilesToDatabase(files: Express.Multer.File[]) {
     const uploadedFiles = await this.uploadFileService
@@ -31,7 +31,7 @@ export class FileService {
           place_model: 'Message',
         });
         return obj.save();
-      }))
+      }),
+    );
   }
-
 }

@@ -8,9 +8,7 @@ import { UploadFileService } from '../services/uploadFile.service';
 @Module({
   controllers: [FileController],
   imports: [
-    MongooseModule.forFeature([
-      { name: File.name, schema: FileSchema },
-    ]),
+    MongooseModule.forFeature([{ name: File.name, schema: FileSchema }]),
   ],
   providers: [FileService, UploadFileService],
 })

@@ -14,7 +14,7 @@ export class ChatService {
 
   async createPrivateChat(createChatInput: CreateChatInput) {
     const chat = new this.chatModel(createChatInput);
-    const doc = chat.save()
+    const doc = chat.save();
     await this.userModel.findByIdAndUpdate(
       createChatInput.first_companion,
       { $addToSet: { chats: chat._id } },
@@ -35,5 +35,4 @@ export class ChatService {
       .populate('messages')
       .lean();
   }
-
 }

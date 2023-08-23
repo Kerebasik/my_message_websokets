@@ -6,6 +6,7 @@ import { Channel } from './channel.schema';
 import { Message } from './message.schema';
 import { Chat } from './chat.schema';
 import { v4 as uuid4 } from 'uuid';
+import { File } from './file.schema';
 
 @Schema()
 @ObjectType()
@@ -13,6 +14,12 @@ export class User {
   @Prop({ default: uuid4 })
   @Field(() => ID)
   _id: string;
+
+  @Prop({
+    type: { type: mongoose.Schema.Types.String, ref: 'File' },
+  })
+  @Field(() => File, { description: 'Uploaded files of the message' })
+  avatar: File;
 
   @Prop({ required: true })
   @Field(() => String, { description: 'User firstName ' })
@@ -22,11 +29,11 @@ export class User {
   @Field(() => String, { description: 'User lastName ' })
   lastName: string;
 
-  @Prop({ required: false })
+  @Prop()
   @Field(() => String, { description: 'User nickname ' })
   username: string;
 
-  @Prop({ required: false })
+  @Prop()
   @Field(() => String, { description: 'User biography ' })
   bio: string;
 
@@ -67,7 +74,6 @@ export class User {
     type: [{ type: mongoose.Schema.Types.String, ref: 'Message' }],
   })
   messages: Message[];
-
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

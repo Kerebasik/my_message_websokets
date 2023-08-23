@@ -47,7 +47,8 @@ export class IsUserBannedGuard {
     }
     if (
       channel.ban_list.filter((user) => user._id === sub).length >= 0 &&
-      (sub !== channel.creator._id && channel.channel_admins.filter((user) => user._id === sub).length <= 0)
+      sub !== channel.creator._id &&
+      channel.channel_admins.filter((user) => user._id === sub).length <= 0
     ) {
       throw new ForbiddenException(
         'User are banned from the channel and not allowed to watch channel posts and comment them',

@@ -26,30 +26,29 @@ export class MessageService {
     createMessageInput: CreateMessageInput,
     sender: string,
   ) {
-      const msgDoc = new this.messageModel({
-        ...createMessageInput,
-        sender: sender,
-        receiver_model: 'Group',
-      });
-      await msgDoc.save();
+    const msgDoc = new this.messageModel({
+      ...createMessageInput,
+      sender: sender,
+      receiver_model: 'Group',
+    });
+    await msgDoc.save();
 
-      return this.groupModel
-        .findByIdAndUpdate(
-          createMessageInput.receiver,
-          { $push: { messages: msgDoc._id } },
-          { new: true, useFindAndModify: false },
-        )
-        .populate('members')
-        .populate({
-          path: 'messages',
-          populate: {
-            path: 'files',
-            model: 'File',
-          },
-        })
-        .lean();
-    }
-
+    return this.groupModel
+      .findByIdAndUpdate(
+        createMessageInput.receiver,
+        { $push: { messages: msgDoc._id } },
+        { new: true, useFindAndModify: false },
+      )
+      .populate('members')
+      .populate({
+        path: 'messages',
+        populate: {
+          path: 'files',
+          model: 'File',
+        },
+      })
+      .lean();
+  }
 
   async sendCommentToPost(
     createMessageInput: CreateMessageInput,

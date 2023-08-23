@@ -14,29 +14,19 @@ export class PollResolver {
   ) {}
 
   @Mutation(() => Group)
-  async createPoll(
-    @Args('input') poll: CreatePollInput,
-  ) {
+  async createPoll(@Args('input') poll: CreatePollInput) {
     return this.pollService.createPoll(poll);
   }
 
   @Mutation(() => PollOption)
-  async votePoll(
-    @Args('id') id: string,
-    @AuthToken() token: string,
-  ) {
+  async votePoll(@Args('id') id: string, @AuthToken() token: string) {
     const payload = this.tokenService.decodeToken(token);
     return await this.pollService.voteInPoll(id, payload.sub);
   }
 
   @Mutation(() => PollOption)
-  async removeVoteFromPoll(
-    @Args('id') id: string,
-    @AuthToken() token: string,
-  ) {
+  async removeVoteFromPoll(@Args('id') id: string, @AuthToken() token: string) {
     const payload = this.tokenService.decodeToken(token);
     return this.pollService.removeVoteFromPoll(id, payload.sub);
   }
-
-
 }

@@ -2,10 +2,14 @@ import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreatePollInput {
-  @Field(() => String, { description: 'Group or channel, where pool will be placed' })
+  @Field(() => String, {
+    description: 'Group or channel, where pool will be placed',
+  })
   receiver: string;
 
-  @Field(() => String, { description: 'Type of the receiver, group or channel' })
+  @Field(() => String, {
+    description: 'Type of the receiver, group or channel',
+  })
   receiver_type: string;
 
   @Field(() => String, { description: 'Question of the pool' })

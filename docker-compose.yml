@@ -15,9 +15,9 @@ services:
       - database
       - mongo-express
     ports:
-      - '5000:3000'
-#    volumes:
-#      - ./server:/app
+      - '3000:3000'
+    volumes:
+      - ./server:/app
     restart: always
     command: yarn run start:dev
 

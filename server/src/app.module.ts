@@ -44,10 +44,6 @@ dotenv.config();
           playground: true,
           csrfPrevention: false,
           debug: configService.get<boolean>('DEBUG'),
-          uploads: {
-            maxFileSize: 10000000, // 10 MB
-            maxFiles: 100,
-          },
         } as GqlModuleOptions;
       },
       inject: [ConfigService],

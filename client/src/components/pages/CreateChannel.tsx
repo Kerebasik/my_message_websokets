@@ -4,13 +4,12 @@ import {
   ChannelAndGroupDescriptionValidation,
   ChannelAndGroupNameValidation,
 } from '../../constants/validation';
-import { useMutation } from '@apollo/client';
-import { CREATE_CHANNEL } from '../../graphql/mutation/channel';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { PrivateRoutes } from '../../constants/routes';
+import {useCreateChannel} from "../../hooks/mutation/useCreateChannel";
 
-type CreateChannelForm = {
+export type CreateChannelForm = {
   name: string;
   description: string;
 };
@@ -25,26 +24,23 @@ const CreateChannel = () => {
   const name = watch('name');
   const description = watch('description');
   const navigate = useNavigate();
-  const [CreateChannel] = useMutation(CREATE_CHANNEL);
+  const {createChannel}=useCreateChannel()
 
   const onSubmit: SubmitHandler<CreateChannelForm> = () => {
-    CreateChannel({
-      variables: { channel_name: name, description: description },
-    })
-      .then((data) => {
-        console.log(data.data);
+    createChannel({name, description})
+      .then(() => {
         toast.success('Channel created', { autoClose: 2000 });
         navigate(PrivateRoutes.ROOT);
       })
       .catch(() => {
-        toast.error('ServerError', { autoClose: 2000 });
+        toast.error('Failed create channel', { autoClose: 2000 });
       })
       .finally(() => {
         reset();
       });
   };
 
-  return (
+  return(
     <Container maxWidth='sm'>
       <Box
         sx={{

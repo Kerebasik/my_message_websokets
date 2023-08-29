@@ -7,7 +7,7 @@ import {
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { PrivateRoutes } from '../../constants/routes';
-import {useCreateChannel} from "../../hooks/mutation/useCreateChannel";
+import { useCreateChannel } from '../../hooks/mutation/useCreateChannel';
 
 export type CreateChannelForm = {
   name: string;
@@ -24,10 +24,10 @@ const CreateChannel = () => {
   const name = watch('name');
   const description = watch('description');
   const navigate = useNavigate();
-  const {createChannel}=useCreateChannel()
+  const { createChannel } = useCreateChannel();
 
   const onSubmit: SubmitHandler<CreateChannelForm> = () => {
-    createChannel({name, description})
+    createChannel({ name, description })
       .then(() => {
         toast.success('Channel created', { autoClose: 2000 });
         navigate(PrivateRoutes.ROOT);
@@ -40,7 +40,7 @@ const CreateChannel = () => {
       });
   };
 
-  return(
+  return (
     <Container maxWidth='sm'>
       <Box
         sx={{

@@ -11,7 +11,7 @@ const RegularValidationForLastName =
 
 const RegularValidationForChannelAndGroupName = /^.+$/;
 
-const RegularValidationForChannelAndGroupDescription = /^.+$/
+const RegularValidationForChannelAndGroupDescription = /^.+$/;
 
 const PasswordValidation = {
   required: {
@@ -76,8 +76,8 @@ const ChannelAndGroupNameValidation = {
     message: `Max length is 50 charters`,
   },
   pattern: {
-      value: RegularValidationForChannelAndGroupName,
-      message: 'Name is not valid',
+    value: RegularValidationForChannelAndGroupName,
+    message: 'Name is not valid',
   },
 };
 
@@ -95,8 +95,8 @@ const ChannelAndGroupDescriptionValidation = {
     message: `Max length is 200 charters`,
   },
   pattern: {
-      value: RegularValidationForChannelAndGroupDescription,
-      message: 'Description is not valid',
+    value: RegularValidationForChannelAndGroupDescription,
+    message: 'Description is not valid',
   },
 };
 

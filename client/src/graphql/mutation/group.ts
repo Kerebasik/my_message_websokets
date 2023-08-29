@@ -1,4 +1,4 @@
-import {gql} from "@apollo/client";
+import { gql } from '@apollo/client';
 
 const CREATE_GROUP = gql(`
 mutation CreateGroup($group_name:String!, $description:String!) {
@@ -11,7 +11,6 @@ mutation CreateGroup($group_name:String!, $description:String!) {
     }
 }
 
-`)
+`);
 
-
-export {CREATE_GROUP}
+export { CREATE_GROUP };

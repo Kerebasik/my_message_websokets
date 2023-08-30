@@ -15,6 +15,11 @@ export class GroupService {
 
   async createGroup(createGroupInput: CreateGroupInput, sub: string) {
     const group = new this.groupModel({ ...createGroupInput, creator: sub });
+    await this.userModel.findByIdAndUpdate(
+      sub,
+      { $push: { groups: group._id } },
+      { new: true, useFindAndModify: false },
+    );
     return group.save();
   }
 

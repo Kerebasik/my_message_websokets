@@ -67,4 +67,18 @@ export class Group {
 export const GroupSchema = SchemaFactory.createForClass(Group);
 export type GroupDocument = Group & mongoose.Document;
 
+// group.model.ts
+// GroupSchema.pre('save', async function (next) {
+//   const group = this;
+//
+//   // Update the User's groups field
+//   await UserDocument.updateMany(
+//     { _id: { $in: group.members } }, // Assuming there's a 'members' field in your Group schema
+//     { $push: { groups: group._id } }
+//   );
+//
+//   next();
+// });
+
+
 GroupSchema.index({ group_name: 1 });

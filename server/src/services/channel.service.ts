@@ -22,6 +22,11 @@ export class ChannelService {
       ...createChannelInput,
       creator: creator_id,
     });
+    await this.userModel.findByIdAndUpdate(
+      creator_id,
+      { $push: { groups: channel._id } },
+      { new: true, useFindAndModify: false },
+    );
     return (await channel.save()).populate('creator');
   }
 

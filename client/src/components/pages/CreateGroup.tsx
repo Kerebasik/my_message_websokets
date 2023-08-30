@@ -4,36 +4,36 @@ import {
   ChannelAndGroupDescriptionValidation,
   ChannelAndGroupNameValidation,
 } from '../../constants/validation';
-import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useCreateGroup } from '../../hooks/mutation/useCreateGroup';
+import { toast } from 'react-toastify';
 import { PrivateRoutes } from '../../constants/routes';
-import { useCreateChannel } from '../../hooks/mutation/useCreateChannel';
 
-export type CreateChannelForm = {
+export type CreateGroupForm = {
   name: string;
   description: string;
 };
 
-const CreateChannel = () => {
-  const { control, handleSubmit, watch, reset } = useForm<CreateChannelForm>({
+const CreateGroup = () => {
+  const navigate = useNavigate();
+  const { control, watch, handleSubmit, reset } = useForm<CreateGroupForm>({
     defaultValues: {
       name: '',
       description: '',
     },
   });
+  const { createGroup } = useCreateGroup();
   const name = watch('name');
   const description = watch('description');
-  const navigate = useNavigate();
-  const { createChannel } = useCreateChannel();
 
-  const onSubmit: SubmitHandler<CreateChannelForm> = () => {
-    createChannel({ name, description })
+  const onSubmit: SubmitHandler<CreateGroupForm> = () => {
+    createGroup({ name, description })
       .then(() => {
-        toast.success('Channel created', { autoClose: 2000 });
+        toast.success('Created new group', { autoClose: 2000 });
         navigate(PrivateRoutes.ROOT);
       })
       .catch(() => {
-        toast.error('Failed create channel', { autoClose: 2000 });
+        toast.error('Failed created group', { autoClose: 2000 });
       })
       .finally(() => {
         reset();
@@ -76,7 +76,7 @@ const CreateChannel = () => {
             component='h3'
             align={'center'}
           >
-            Create Channel
+            Create Group
           </Typography>
           <Controller
             name='name'
@@ -135,4 +135,4 @@ const CreateChannel = () => {
   );
 };
 
-export { CreateChannel };
+export { CreateGroup };

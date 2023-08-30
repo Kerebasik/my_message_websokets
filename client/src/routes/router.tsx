@@ -12,6 +12,7 @@ import ChatOutlet from '../components/parts/ChatOutlet';
 import PrivateRoute from '../hoc/PrivateRoute';
 import { PrivateRoutes, PublicRoutes } from '../constants/routes';
 import { CreateChannel } from '../components/pages/CreateChannel';
+import { CreateGroup } from '../components/pages/CreateGroup';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,10 @@ const router = createBrowserRouter(
           path={PrivateRoutes.CREATE_CHANNEL}
           element={<CreateChannel />}
         />
+        <Route
+          path={PrivateRoutes.CREATE_GROUP}
+          element={<CreateGroup />}
+        ></Route>
         <Route path={PrivateRoutes.CHAT_OUTLET} element={<ChatOutlet />} />
       </Route>
       <Route path={PublicRoutes.RESET_PASSWORD} element={<ResetPassword />} />

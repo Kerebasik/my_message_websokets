@@ -9,9 +9,9 @@ const RegularValidationForFirstName =
 const RegularValidationForLastName =
   /^[A-Za-zА-Яа-яЁё]+(?:[-\s][A-Za-zА-Яа-яЁё]+)?$/;
 
-const RegularValidationForChannelAndGroupName = /^[a-zA-Z0-9\s_-]?$/;
+const RegularValidationForChannelAndGroupName = /^.+$/;
 
-const RegularValidationForChannelAndGroupDescription = /^.$/;
+const RegularValidationForChannelAndGroupDescription = /^.+$/;
 
 const PasswordValidation = {
   required: {
@@ -75,10 +75,10 @@ const ChannelAndGroupNameValidation = {
     value: 50,
     message: `Max length is 50 charters`,
   },
-  // pattern: {
-  //     value: RegularValidationForChannelAndGroupName,
-  //     message: 'Name is not valid',
-  // },
+  pattern: {
+    value: RegularValidationForChannelAndGroupName,
+    message: 'Name is not valid',
+  },
 };
 
 const ChannelAndGroupDescriptionValidation = {
@@ -94,10 +94,10 @@ const ChannelAndGroupDescriptionValidation = {
     value: 200,
     message: `Max length is 200 charters`,
   },
-  // pattern: {
-  //     value: RegularValidationForChannelAndGroupDescription,
-  //     message: 'Description is not valid',
-  // },
+  pattern: {
+    value: RegularValidationForChannelAndGroupDescription,
+    message: 'Description is not valid',
+  },
 };
 
 export {
